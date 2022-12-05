@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class BubbleSortTest {
     @Test
     void shouldSortIntegersInAscendingOrder() {
-        List<Integer> integers = List.of(1, 5, 3, 6, 4, 2);
+        List<Integer> integers = Fixtures.INT_LIST;
         SortingStrategy sortingStrategy = new BubbleSort();
         List<Integer> result = sortingStrategy.sort(integers);
         assertThat(result).isSorted();
