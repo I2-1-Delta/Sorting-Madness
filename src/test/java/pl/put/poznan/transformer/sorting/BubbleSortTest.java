@@ -2,6 +2,7 @@ package pl.put.poznan.transformer.sorting;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.jupiter.api.Test;
+import pl.put.poznan.transformer.sorting.algorithms.BubbleSort;
 
 import java.util.List;
 
