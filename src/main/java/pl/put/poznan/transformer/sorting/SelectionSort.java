@@ -33,6 +33,22 @@ public class SelectionSort implements SortingStrategy {
 
     @Override
     public List<JsonNode> sort(List<JsonNode> toSort, String path) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        List<JsonNode> result = new ArrayList<>(toSort);
+        JsonNodeComparator comparator = new JsonNodeComparator(path);
+        int n = result.size();
+        for (int i = 0; i < n-1; i++)
+        {
+            int min_idx = i;
+            for (int j = i+1; j < n; j++) {
+                if (comparator.compare(result.get(min_idx), result.get(j)) > 0) {
+                    min_idx = j;
+                }
+            }
+            JsonNode temp1 = result.get(min_idx);
+            JsonNode temp2 = result.get(i);
+            result.set(min_idx, temp2);
+            result.set(i, temp1);
+        }
+        return result;
     }
 }
