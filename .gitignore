@@ -163,3 +163,4 @@ buildNumber.properties
 
 # Mac
 .DS_Store
+.idea
