@@ -17,15 +17,15 @@ public class SelectionSort implements SortingStrategy {
         int n = result.size();
         for (int i = 0; i < n-1; i++)
         {
-            int min_idx = i;
+            int minIndex = i;
             for (int j = i+1; j < n; j++) {
-                if (result.get(j) < result.get(min_idx)) {
-                    min_idx = j;
+                if (result.get(j) < result.get(minIndex)) {
+                    minIndex = j;
                 }
             }
-            int temp1 = result.get(min_idx);
+            int temp1 = result.get(minIndex);
             int temp2 = result.get(i);
-            result.set(min_idx, temp2);
+            result.set(minIndex, temp2);
             result.set(i, temp1);
         }
         return result;
@@ -38,15 +38,15 @@ public class SelectionSort implements SortingStrategy {
         int n = result.size();
         for (int i = 0; i < n-1; i++)
         {
-            int min_idx = i;
+            int minIndex = i;
             for (int j = i+1; j < n; j++) {
-                if (comparator.compare(result.get(min_idx), result.get(j)) > 0) {
-                    min_idx = j;
+                if (comparator.compare(result.get(minIndex), result.get(j)) > 0) {
+                    minIndex = j;
                 }
             }
-            JsonNode temp1 = result.get(min_idx);
+            JsonNode temp1 = result.get(minIndex);
             JsonNode temp2 = result.get(i);
-            result.set(min_idx, temp2);
+            result.set(minIndex, temp2);
             result.set(i, temp1);
         }
         return result;
