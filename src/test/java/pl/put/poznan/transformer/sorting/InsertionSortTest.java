@@ -8,19 +8,18 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-class BubbleSortTest {
+class InsertionSortTest {
     @Test
     void shouldSortIntegersInAscendingOrder() {
         List<Integer> integers = Fixtures.INT_LIST;
-        SortingStrategy sortingStrategy = new BubbleSort();
+        SortingStrategy sortingStrategy = new InsertionSort();
         List<Integer> result = sortingStrategy.sort(integers);
         assertThat(result).isSorted();
     }
-
     @Test
     void shouldSortObjectsInAscendingOrder() {
         List<JsonNode> integers = Fixtures.OBJECT_LIST;
-        SortingStrategy sortingStrategy = new BubbleSort();
+        SortingStrategy sortingStrategy = new InsertionSort();
         List<JsonNode> result = sortingStrategy.sort(integers, Fixtures.PATH);
         assertThat(result).isSortedAccordingTo(new JsonNodeComparator(Fixtures.PATH));
     }
