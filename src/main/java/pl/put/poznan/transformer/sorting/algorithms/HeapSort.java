@@ -1,6 +1,8 @@
-package pl.put.poznan.transformer.sorting;
+package pl.put.poznan.transformer.sorting.algorithms;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import pl.put.poznan.transformer.sorting.JsonNodeComparator;
+import pl.put.poznan.transformer.sorting.SortingStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
