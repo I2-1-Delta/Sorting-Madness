@@ -1,33 +1,34 @@
 package pl.put.poznan.transformer.logic;
 
-import pl.put.poznan.transformer.sorting.SortingAlgorithms;
+import com.fasterxml.jackson.databind.JsonNode;
+import pl.put.poznan.transformer.sorting.SortingStrategyEnum;
 
 import java.util.List;
 
-public class RestInputIntegers {
+public class RestInputObjects {
 
-    private List<SortingAlgorithms> sortingAlgorithms;
+    private List<JsonNode> toSort;
 
-    private List<Integer> toSort;
+    private List<SortingStrategyEnum> sortingStrategies;
 
-    public RestInputIntegers(List<SortingAlgorithms> sortingAlgorithms, List<Integer> toSort) {
-        this.sortingAlgorithms = sortingAlgorithms;
+    public RestInputObjects(List<JsonNode> toSort, List<SortingStrategyEnum> sortingStrategies) {
         this.toSort = toSort;
+        this.sortingStrategies = sortingStrategies;
     }
 
-    public List<SortingAlgorithms> getSortingAlgorithms() {
-        return sortingAlgorithms;
-    }
-
-    public void setSortingAlgorithms(List<SortingAlgorithms> sortingAlgorithms) {
-        this.sortingAlgorithms = sortingAlgorithms;
-    }
-
-    public List<Integer> getToSort() {
+    public List<JsonNode> getToSort() {
         return toSort;
     }
 
-    public void setToSort(List<Integer> toSort) {
+    public void setToSort(List<JsonNode> toSort) {
         this.toSort = toSort;
+    }
+
+    public List<SortingStrategyEnum> getSortingStrategies() {
+        return sortingStrategies;
+    }
+
+    public void setSortingStrategies(List<SortingStrategyEnum> sortingStrategies) {
+        this.sortingStrategies = sortingStrategies;
     }
 }
