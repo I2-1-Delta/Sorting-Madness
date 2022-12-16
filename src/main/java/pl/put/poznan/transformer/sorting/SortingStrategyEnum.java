@@ -2,7 +2,7 @@ package pl.put.poznan.transformer.sorting;
 
 import pl.put.poznan.transformer.sorting.algorithms.*;
 
-public enum SortingStrategies {
+public enum SortingStrategyEnum {
     BUBBLE_SORT(new BubbleSort()),
     HEAP_SORT(new HeapSort()),
     INSERTION_SORT(new InsertionSort()),
@@ -13,7 +13,7 @@ public enum SortingStrategies {
 
     private final SortingStrategy sortingStrategy;
 
-    SortingStrategies(SortingStrategy sortingStrategy) {
+    SortingStrategyEnum(SortingStrategy sortingStrategy) {
         this.sortingStrategy = sortingStrategy;
     }
 
