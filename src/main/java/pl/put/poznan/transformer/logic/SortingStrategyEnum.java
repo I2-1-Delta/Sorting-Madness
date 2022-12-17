@@ -1,5 +1,6 @@
-package pl.put.poznan.transformer.sorting;
+package pl.put.poznan.transformer.logic;
 
+import pl.put.poznan.transformer.sorting.SortingStrategy;
 import pl.put.poznan.transformer.sorting.algorithms.*;
 
 public enum SortingStrategyEnum {

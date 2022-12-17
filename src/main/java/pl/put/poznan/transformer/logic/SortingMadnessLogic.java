@@ -1,6 +1,5 @@
 package pl.put.poznan.transformer.logic;
 
-import pl.put.poznan.transformer.sorting.SortingStrategyEnum;
 import pl.put.poznan.transformer.sorting.SortingStrategy;
 
 import java.util.ArrayList;

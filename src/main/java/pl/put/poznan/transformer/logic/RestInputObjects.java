@@ -1,7 +1,6 @@
 package pl.put.poznan.transformer.logic;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import pl.put.poznan.transformer.sorting.SortingStrategyEnum;
 
 import java.util.List;
 

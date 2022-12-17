@@ -9,7 +9,6 @@ import pl.put.poznan.transformer.logic.SortingMadnessLogic;
 import pl.put.poznan.transformer.sorting.Sorter;
 import pl.put.poznan.transformer.sorting.SortingResult;
 import pl.put.poznan.transformer.sorting.SortingStrategy;
-import pl.put.poznan.transformer.sorting.SortingStrategyEnum;
 
 
 import java.util.List;

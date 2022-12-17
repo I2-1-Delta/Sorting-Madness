@@ -1,7 +1,5 @@
 package pl.put.poznan.transformer.logic;
 
-import pl.put.poznan.transformer.sorting.SortingStrategyEnum;
-
 import java.util.List;
 
 public class RestInputIntegers {
