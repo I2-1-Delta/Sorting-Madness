@@ -25,9 +25,9 @@ public class QuickSort implements SortingStrategy {
             }
         }
 
-        Collections.swap(toSort, i+1, high);
+        Collections.swap(toSort, i + 1, high);
 
-        return i+1;
+        return i + 1;
     }
 
     private static void quickSortList(List<Integer> toSort, int low, int high){
@@ -59,7 +59,7 @@ public class QuickSort implements SortingStrategy {
         if (comparator.compare(toSort.get(low), toSort.get(high)) < 0){
             int pivot = nodePartition(toSort, low, high, comparator);
 
-            quickSortNodes(toSort, low, pivot -1, comparator);
+            quickSortNodes(toSort, low, pivot - 1, comparator);
             quickSortNodes(toSort, pivot + 1, high, comparator);
         }
     }
@@ -69,7 +69,7 @@ public class QuickSort implements SortingStrategy {
         List<Integer> result = new ArrayList<>(toSort);
         int n = result.size();
 
-        quickSortList(result, 0, n-1);
+        quickSortList(result, 0, n - 1);
 
         return result;
     }
@@ -80,7 +80,7 @@ public class QuickSort implements SortingStrategy {
         JsonNodeComparator comparator = new JsonNodeComparator(path);
         int n = result.size();
 
-        quickSortNodes(result, 0, n-1, comparator);
+        quickSortNodes(result, 0, n - 1, comparator);
 
         return result;
     }
