@@ -6,12 +6,14 @@ import java.util.List;
 
 public class RestInputObjects {
 
-    private List<JsonNode> toSort;
+    private final List<JsonNode> toSort;
+    private final String property;
 
-    private List<SortingStrategyEnum> sortingStrategies;
+    private final List<SortingStrategyEnum> sortingStrategies;
 
-    public RestInputObjects(List<JsonNode> toSort, List<SortingStrategyEnum> sortingStrategies) {
+    public RestInputObjects(List<JsonNode> toSort, String property, List<SortingStrategyEnum> sortingStrategies) {
         this.toSort = toSort;
+        this.property = property;
         this.sortingStrategies = sortingStrategies;
     }
 
@@ -19,15 +21,11 @@ public class RestInputObjects {
         return toSort;
     }
 
-    public void setToSort(List<JsonNode> toSort) {
-        this.toSort = toSort;
+    public String getProperty() {
+        return property;
     }
 
     public List<SortingStrategyEnum> getSortingStrategies() {
         return sortingStrategies;
-    }
-
-    public void setSortingStrategies(List<SortingStrategyEnum> sortingStrategies) {
-        this.sortingStrategies = sortingStrategies;
     }
 }

@@ -4,9 +4,9 @@ import java.util.List;
 
 public class RestInputIntegers {
 
-    private List<Integer> toSort;
+    private final List<Integer> toSort;
 
-    private List<SortingStrategyEnum> sortingStrategies;
+    private final List<SortingStrategyEnum> sortingStrategies;
 
     public RestInputIntegers(List<Integer> toSort, List<SortingStrategyEnum> sortingStrategies) {
         this.toSort = toSort;
@@ -17,15 +17,7 @@ public class RestInputIntegers {
         return toSort;
     }
 
-    public void setToSort(List<Integer> toSort) {
-        this.toSort = toSort;
-    }
-
     public List<SortingStrategyEnum> getSortingStrategies() {
         return sortingStrategies;
-    }
-
-    public void setSortingStrategies(List<SortingStrategyEnum> sortingStrategies) {
-        this.sortingStrategies = sortingStrategies;
     }
 }
