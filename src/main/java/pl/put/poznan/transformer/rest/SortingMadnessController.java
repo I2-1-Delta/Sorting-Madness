@@ -2,6 +2,8 @@ package pl.put.poznan.transformer.rest;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,9 +20,11 @@ import java.util.List;
 
 @RestController
 public class SortingMadnessController {
+    private static final Logger log = LoggerFactory.getLogger(SortingMadnessController.class);
 
     @GetMapping("/sort/integers")
     public SortingResult<Integer> sortIntegers(@RequestBody RestInputIntegers restInputIntegers) {
+        log.info("Sorting integers");
         Sorter sorter = new Sorter();
         List<Integer> toSort = restInputIntegers.getToSort();
         List<SortingStrategy> sortingStrategies = SortingMadnessLogic.getSortingStrategies(restInputIntegers.getSortingStrategies());
@@ -30,6 +34,7 @@ public class SortingMadnessController {
 
     @GetMapping("/sort/objects")
     public SortingResult<JsonNode> sortObjects(@RequestBody RestInputObjects restInputObjects) {
+        log.info("Sorting objects");
         List<JsonNode> toSort = restInputObjects.getToSort();
         String property = restInputObjects.getProperty();
         for (JsonNode object : toSort) {
@@ -45,6 +50,7 @@ public class SortingMadnessController {
 
     @ExceptionHandler({NoSortingAlgorithmSelected.class, NothingToSort.class, ObjectDontHaveSortingProperty.class})
     ResponseEntity<ApiError> handleException(RuntimeException exception) {
+        log.error("Problem during sorting", exception);
         return ResponseEntity.badRequest().body(new ApiError(HttpStatus.BAD_REQUEST, exception.getMessage()));
     }
 }
