@@ -1,6 +1,8 @@
 package pl.put.poznan.transformer.sorting;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -12,6 +14,7 @@ import java.util.List;
  * and measures the required time for each sorting method.
  */
 public class Sorter {
+    private static final Logger log = LoggerFactory.getLogger(Sorter.class);
     /**
      * Sort list of integers with given sorting methods
      *
@@ -33,6 +36,7 @@ public class Sorter {
 
         for (SortingStrategy sortingStrategy :
                 sortingStrategies) {
+            log.info("Sorting integers using algorithm {}", sortingStrategy.getName());
             Instant start = Instant.now();
             sorted = sortingStrategy.sort(toSort);
             Instant stop = Instant.now();
@@ -76,6 +80,7 @@ public class Sorter {
 
         for (SortingStrategy sortingStrategy :
                 sortingStrategies) {
+            log.info("Sorting objects using algorithm {}", sortingStrategy.getName());
             Instant start = Instant.now();
             sorted = sortingStrategy.sort(toSort, path);
             Instant stop = Instant.now();
