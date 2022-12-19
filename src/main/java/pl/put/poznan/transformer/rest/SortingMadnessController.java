@@ -42,6 +42,11 @@ public class SortingMadnessController {
 
         return sorter.sortObjects(toSort, property, sortingStrategies);
     }
+
+    @ExceptionHandler({NoSortingAlgorithmSelected.class, NothingToSort.class, ObjectDontHaveSortingProperty.class})
+    ResponseEntity<ApiError> handleException(RuntimeException exception) {
+        return ResponseEntity.badRequest().body(new ApiError(HttpStatus.BAD_REQUEST, exception.getMessage()));
+    }
 }
 
 
