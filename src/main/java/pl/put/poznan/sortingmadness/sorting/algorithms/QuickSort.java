@@ -1,25 +1,20 @@
-package pl.put.poznan.transformer.sorting.algorithms;
+package pl.put.poznan.sortingmadness.sorting.algorithms;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import pl.put.poznan.transformer.sorting.JsonNodeComparator;
-import pl.put.poznan.transformer.sorting.SortingStrategy;
+import pl.put.poznan.sortingmadness.sorting.JsonNodeComparator;
+import pl.put.poznan.sortingmadness.sorting.SortingStrategy;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class QuickSort implements SortingStrategy {
-    @Override
-    public String getName() {
-        return "Quick sort";
-    }
-
-    private static int listPartition(List<Integer> toSort, int low, int high){
+    private static int listPartition(List<Integer> toSort, int low, int high) {
         int pivot = toSort.get(high);
         int i = low - 1;
 
-        for (int j = low; j < high; j++){
-            if (toSort.get(j) <= pivot){
+        for (int j = low; j < high; j++) {
+            if (toSort.get(j) <= pivot) {
                 i++;
                 Collections.swap(toSort, i, j);
             }
@@ -30,8 +25,8 @@ public class QuickSort implements SortingStrategy {
         return i + 1;
     }
 
-    private static void quickSortList(List<Integer> toSort, int low, int high){
-        if (low < high){
+    private static void quickSortList(List<Integer> toSort, int low, int high) {
+        if (low < high) {
             int pivot = listPartition(toSort, low, high);
 
             quickSortList(toSort, low, pivot - 1);
@@ -39,29 +34,34 @@ public class QuickSort implements SortingStrategy {
         }
     }
 
-    private static int nodePartition(List<JsonNode> toSort, int low, int high, JsonNodeComparator comparator){
+    private static int nodePartition(List<JsonNode> toSort, int low, int high, JsonNodeComparator comparator) {
         JsonNode pivot = toSort.get(high);
         int i = low - 1;
 
-        for (int j = low; j < high; j++){
-            if (comparator.compare(toSort.get(j), pivot) <= 0){
+        for (int j = low; j < high; j++) {
+            if (comparator.compare(toSort.get(j), pivot) <= 0) {
                 i++;
                 Collections.swap(toSort, i, j);
             }
         }
 
-        Collections.swap(toSort, i+1, high);
+        Collections.swap(toSort, i + 1, high);
 
-        return i+1;
+        return i + 1;
     }
 
-    private static void quickSortNodes(List<JsonNode> toSort, int low, int high, JsonNodeComparator comparator){
-        if (comparator.compare(toSort.get(low), toSort.get(high)) < 0){
+    private static void quickSortNodes(List<JsonNode> toSort, int low, int high, JsonNodeComparator comparator) {
+        if (comparator.compare(toSort.get(low), toSort.get(high)) < 0) {
             int pivot = nodePartition(toSort, low, high, comparator);
 
             quickSortNodes(toSort, low, pivot - 1, comparator);
             quickSortNodes(toSort, pivot + 1, high, comparator);
         }
+    }
+
+    @Override
+    public String getName() {
+        return "Quick sort";
     }
 
     @Override

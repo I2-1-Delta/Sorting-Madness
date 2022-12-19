@@ -1,9 +1,8 @@
-package pl.put.poznan.transformer.sorting;
+package pl.put.poznan.sortingmadness.sorting;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.jupiter.api.Test;
-import pl.put.poznan.transformer.sorting.algorithms.BubbleSort;
-import pl.put.poznan.transformer.sorting.algorithms.QuickSort;
+import pl.put.poznan.sortingmadness.sorting.algorithms.QuickSort;
 
 import java.util.List;
 
