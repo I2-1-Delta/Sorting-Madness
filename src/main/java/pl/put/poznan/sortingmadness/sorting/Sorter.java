@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class Sorter {
     private static final Logger log = LoggerFactory.getLogger(Sorter.class);
+
     /**
      * Sort list of integers with given sorting methods
      *
@@ -41,6 +42,7 @@ public class Sorter {
             sorted = sortingStrategy.sort(toSort);
             Instant stop = Instant.now();
             long duration = Duration.between(start, stop).toNanos();
+            log.debug("Run {} algorithm for integers in {} ns", sortingStrategy.getName(), duration);
             elapsed.put(sortingStrategy.getName(), duration);
         }
 
@@ -86,6 +88,7 @@ public class Sorter {
             sorted = sortingStrategy.sort(toSort, path);
             Instant stop = Instant.now();
             long duration = Duration.between(start, stop).toNanos();
+            log.debug("Run {} algorithm for objects in {} ns", sortingStrategy.getName(), duration);
             elapsed.put(sortingStrategy.getName(), duration);
         }
 
