@@ -18,5 +18,19 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           cache: maven
+      - name: cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
       - name: Validate, build and run tests
         run: mvn --batch-mode --update-snapshots verify
+      - name: Deploy Javadoc
+        uses: MathieuSoysal/Javadoc-publisher.yml@v2.3.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          javadoc-branch: javadoc
+          java-version: 11
+          target-folder: javadoc
+          project: maven
