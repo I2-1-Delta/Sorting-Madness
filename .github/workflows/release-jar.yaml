@@ -21,5 +21,5 @@ jobs:
         with:
           name: ${{ env.GITHUB_REF_NAME }}
           tag: ${{ env.GITHUB_REF_NAME }}
-          artifacts: "target/sorting-madness-*-jar-with-dependencies.jar"
+          artifacts: "target/sorting-madness-*.jar"
           token: ${{ secrets.GITHUB_TOKEN }}
