@@ -52,7 +52,6 @@ public class Sorter {
     /**
      * Sort list of custom objects with given sorting methods. Path is used to select which property
      * should be used for comparison, e.g. object:
-     * <p>
      * <pre>
      * {
      *     "name": "object",
@@ -61,7 +60,6 @@ public class Sorter {
      *     }
      * }
      * </pre>
-     * </p>
      * and path: "/sort/key" gives value 1.
      *
      * @param toSort            the list to sort
