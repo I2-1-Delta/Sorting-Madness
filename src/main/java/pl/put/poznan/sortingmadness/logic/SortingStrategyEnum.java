@@ -9,7 +9,7 @@ public enum SortingStrategyEnum {
     INSERTION_SORT(new InsertionSort()),
     MERGE_SORT(new MergeSort()),
     SELECTION_SORT(new SelectionSort()),
-    QUICK_SORT(new QuickSort());  //TODO quick sort to be implemented
+    QUICK_SORT(new QuickSort());
 
 
     private final SortingStrategy sortingStrategy;

@@ -3,6 +3,7 @@ package pl.put.poznan.sortingmadness.sorting;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.put.poznan.sortingmadness.logic.SortingMadnessLogic;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -87,5 +88,35 @@ public class Sorter {
         }
 
         return results;
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    public SortingResult<Integer> sortWithBestStrategy(List<Integer> toSort){
+        if (toSort.isEmpty()) {
+            throw new NothingToSort();
+        }
+
+        List<Integer> sorted = null;
+        String bestStrategyName = null;
+        long bestDuration = 0;
+
+
+        List<SortingStrategy> sortingStrategies = SortingMadnessLogic.getAllSortingStrategies();
+        for (SortingStrategy sortingStrategy :
+                sortingStrategies) {
+            log.info("Sorting integers using algorithm {}", sortingStrategy.getName());
+            Instant start = Instant.now();
+            sorted = sortingStrategy.sort(toSort);
+            Instant stop = Instant.now();
+            long duration = Duration.between(start, stop).toNanos();
+            log.debug("Run {} algorithm for integers in {} ns", sortingStrategy.getName(), duration);
+            if(duration < bestDuration){
+                bestStrategyName = sortingStrategy.getName();
+                bestDuration = duration;
+            }
+        }
+        HashMap<String, Long> elapsed = new HashMap<>();
+        elapsed.put(bestStrategyName, bestDuration);
+        return new SortingResult<>(elapsed, sorted);
     }
 }
