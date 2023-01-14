@@ -23,7 +23,7 @@ public class SortingMadnessController {
     private static final Logger log = LoggerFactory.getLogger(SortingMadnessController.class);
 
     @GetMapping("/sort/integers")
-    public SortingResult<Integer> sortIntegers(@RequestBody RestInputIntegers restInputIntegers) {
+    public List<SortingResult<Integer>> sortIntegers(@RequestBody RestInputIntegers restInputIntegers) {
         log.info("Sorting integers");
         Sorter sorter = new Sorter();
         List<Integer> toSort = restInputIntegers.getToSort();
@@ -33,7 +33,7 @@ public class SortingMadnessController {
     }
 
     @GetMapping("/sort/objects")
-    public SortingResult<JsonNode> sortObjects(@RequestBody RestInputObjects restInputObjects) {
+    public List<SortingResult<JsonNode>> sortObjects(@RequestBody RestInputObjects restInputObjects) {
         log.info("Sorting objects");
         List<JsonNode> toSort = restInputObjects.getToSort();
         String property = restInputObjects.getProperty();
