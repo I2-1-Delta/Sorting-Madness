@@ -9,13 +9,15 @@ import java.util.List;
 
 public class BubbleSort implements SortingStrategy {
     private final boolean descending;
+    private final int limit;
 
     public BubbleSort() {
-        this(false);
+        this(false, 0);
     }
 
-    public BubbleSort(boolean descending) {
+    public BubbleSort(boolean descending, int limit) {
         this.descending = descending;
+        this.limit = limit;
     }
 
     @Override
@@ -27,7 +29,12 @@ public class BubbleSort implements SortingStrategy {
     public List<Integer> sort(List<Integer> toSort) {
         List<Integer> result = new ArrayList<>(toSort);
         int n = result.size();
+        int numOfIterations = 0;
         for (int i = 0; i < n - 1; i++) {
+            numOfIterations++;
+            if (overLimit(numOfIterations)) {
+                break;
+            }
             for (int j = 0; j < n - i - 1; j++) {
                 if (compare(result.get(j), result.get(j + 1))) {
                     int temp = result.get(j);
@@ -51,7 +58,12 @@ public class BubbleSort implements SortingStrategy {
         List<JsonNode> result = new ArrayList<>(toSort);
         JsonNodeComparator comparator = new JsonNodeComparator(path);
         int n = result.size();
+        int numOfIterations = 0;
         for (int i = 0; i < n - 1; i++) {
+            numOfIterations++;
+            if (overLimit(numOfIterations)) {
+                break;
+            }
             for (int j = 0; j < n - i - 1; j++) {
                 if (compare(comparator, result.get(j), result.get(j + 1))) {
                     JsonNode temp = result.get(j);
@@ -68,5 +80,9 @@ public class BubbleSort implements SortingStrategy {
             return comparator.compare(first, second) < 0;
         }
         return comparator.compare(first, second) > 0;
+    }
+
+    private boolean overLimit(int numOfIterations) {
+        return limit != 0 && numOfIterations == limit;
     }
 }
