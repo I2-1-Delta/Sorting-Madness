@@ -119,4 +119,33 @@ public class Sorter {
         elapsed.put(bestStrategyName, bestDuration);
         return new SortingResult<>(elapsed, sorted);
     }
+
+    @SuppressWarnings("DuplicatedCode")
+    public SortingResult<JsonNode> sortObjectsWithBestStrategy(List<JsonNode> toSort, String path) {
+        if (toSort.isEmpty()) {
+            throw new NothingToSort();
+        }
+        List<JsonNode> sorted = null;
+        String bestStrategyName = null;
+        long bestDuration = 0;
+
+        List<SortingStrategy> sortingStrategies = SortingMadnessLogic.getAllSortingStrategies();
+        for (SortingStrategy sortingStrategy :
+                sortingStrategies) {
+            log.info("Sorting objects using algorithm {}", sortingStrategy.getName());
+            Instant start = Instant.now();
+            sorted = sortingStrategy.sort(toSort, path);
+            Instant stop = Instant.now();
+            long duration = Duration.between(start, stop).toNanos();
+            log.debug("Run {} algorithm for objects in {} ns", sortingStrategy.getName(), duration);
+            if(duration < bestDuration){
+                bestStrategyName = sortingStrategy.getName();
+                bestDuration = duration;
+            }
+        }
+        HashMap<String, Long> elapsed = new HashMap<>();
+        elapsed.put(bestStrategyName, bestDuration);
+        return new SortingResult<>(elapsed, sorted);
+    }
+
 }
