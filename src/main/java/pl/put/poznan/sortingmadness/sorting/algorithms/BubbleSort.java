@@ -8,13 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BubbleSort implements SortingStrategy {
+    private final boolean descending;
     private final int limit;
 
     public BubbleSort() {
-        this(0);
+        this(false, 0);
     }
 
-    public BubbleSort(int limit) {
+    public BubbleSort(boolean descending, int limit) {
+        this.descending = descending;
         this.limit = limit;
     }
 
@@ -34,7 +36,7 @@ public class BubbleSort implements SortingStrategy {
                 break;
             }
             for (int j = 0; j < n - i - 1; j++) {
-                if (result.get(j) > result.get(j + 1)) {
+                if (compare(result.get(j), result.get(j + 1))) {
                     int temp = result.get(j);
                     result.set(j, result.get(j + 1));
                     result.set(j + 1, temp);
@@ -42,6 +44,13 @@ public class BubbleSort implements SortingStrategy {
             }
         }
         return result;
+    }
+
+    private boolean compare(Integer first, Integer second) {
+        if (descending) {
+            return first < second;
+        }
+        return first > second;
     }
 
     @Override
@@ -56,7 +65,7 @@ public class BubbleSort implements SortingStrategy {
                 break;
             }
             for (int j = 0; j < n - i - 1; j++) {
-                if (comparator.compare(result.get(j), result.get(j + 1)) > 0) {
+                if (compare(comparator, result.get(j), result.get(j + 1))) {
                     JsonNode temp = result.get(j);
                     result.set(j, result.get(j + 1));
                     result.set(j + 1, temp);
@@ -64,6 +73,13 @@ public class BubbleSort implements SortingStrategy {
             }
         }
         return result;
+    }
+
+    private boolean compare(JsonNodeComparator comparator, JsonNode first, JsonNode second) {
+        if (descending) {
+            return comparator.compare(first, second) < 0;
+        }
+        return comparator.compare(first, second) > 0;
     }
 
     private boolean overLimit(int numOfIterations) {
