@@ -115,9 +115,7 @@ public class Sorter {
                 bestDuration = duration;
             }
         }
-        HashMap<String, Long> elapsed = new HashMap<>();
-        elapsed.put(bestStrategyName, bestDuration);
-        return new SortingResult<>(elapsed, sorted);
+        return new SortingResult<>(bestStrategyName, bestDuration, sorted);
     }
 
     @SuppressWarnings("DuplicatedCode")
@@ -143,9 +141,7 @@ public class Sorter {
                 bestDuration = duration;
             }
         }
-        HashMap<String, Long> elapsed = new HashMap<>();
-        elapsed.put(bestStrategyName, bestDuration);
-        return new SortingResult<>(elapsed, sorted);
+        return new SortingResult<>(bestStrategyName, bestDuration, sorted);
     }
 
 }
