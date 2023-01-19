@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.put.poznan.sortingmadness.logic.RestInputIntegers;
 import pl.put.poznan.sortingmadness.logic.RestInputObjects;
+import pl.put.poznan.sortingmadness.logic.RestInputObjectsBestStrategy;
 import pl.put.poznan.sortingmadness.logic.SortingMadnessLogic;
 import pl.put.poznan.sortingmadness.sorting.*;
 
@@ -47,6 +48,31 @@ public class SortingMadnessController {
 
         return sorter.sortObjects(toSort, property, sortingStrategies);
     }
+
+    @GetMapping("/sort/integers/best/strategy")
+    public SortingResult<Integer> sortIntegersWithBestStrategy(@RequestBody List<Integer> toSort) {
+        log.info("Sorting integers");
+        Sorter sorter = new Sorter();
+
+        return sorter.sortWithBestStrategy(toSort);
+    }
+
+    @GetMapping("/sort/objects/best/strategy")
+    public SortingResult<JsonNode> sortObjectsWithBestStrategy(@RequestBody RestInputObjectsBestStrategy restInputObjectsBestStrategy) {
+        log.info("Sorting objects");
+        List<JsonNode> toSort = restInputObjectsBestStrategy.getToSort();
+        String property = restInputObjectsBestStrategy.getProperty();
+
+        for (JsonNode object : toSort) {
+            if (object.at(property).isMissingNode()) {
+                throw new ObjectDontHaveSortingProperty(object, property);
+            }
+        }
+        Sorter sorter = new Sorter();
+
+        return sorter.sortObjectsWithBestStrategy(toSort, property);
+    }
+
 
     @ExceptionHandler({NoSortingAlgorithmSelected.class, NothingToSort.class, ObjectDontHaveSortingProperty.class})
     ResponseEntity<ApiError> handleException(RuntimeException exception) {
