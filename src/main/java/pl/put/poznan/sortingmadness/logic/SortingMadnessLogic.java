@@ -17,4 +17,15 @@ public class SortingMadnessLogic {
         }
         return sortingStrategies;
     }
+
+    public static List<SortingStrategy> getAllSortingStrategies() {
+        List<SortingStrategyEnum> sortingStrategiesEnums = new ArrayList<SortingStrategyEnum>();
+        sortingStrategiesEnums.add(SortingStrategyEnum.BUBBLE_SORT);
+        sortingStrategiesEnums.add(SortingStrategyEnum.HEAP_SORT);
+        sortingStrategiesEnums.add(SortingStrategyEnum.QUICK_SORT);
+        sortingStrategiesEnums.add(SortingStrategyEnum.MERGE_SORT);
+        sortingStrategiesEnums.add(SortingStrategyEnum.SELECTION_SORT);
+        sortingStrategiesEnums.add(SortingStrategyEnum.INSERTION_SORT);
+        return SortingMadnessLogic.getSortingStrategies(sortingStrategiesEnums);
+    }
 }
