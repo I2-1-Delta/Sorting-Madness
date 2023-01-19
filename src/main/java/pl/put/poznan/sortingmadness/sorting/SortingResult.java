@@ -2,18 +2,23 @@ package pl.put.poznan.sortingmadness.sorting;
 
 
 import java.util.List;
-import java.util.Map;
 
 public class SortingResult<T> {
-    private final Map<String, Long> elapsed;
+    private final String algorithm;
+    private final Long elapsed;
     private final List<T> result;
 
-    public SortingResult(Map<String, Long> elapsed, List<T> result) {
+    public SortingResult(String algorithm, Long elapsed, List<T> result) {
+        this.algorithm = algorithm;
         this.elapsed = elapsed;
         this.result = result;
     }
 
-    public Map<String, Long> getElapsed() {
+    public String getAlgorithm() {
+        return algorithm;
+    }
+
+    public Long getElapsed() {
         return elapsed;
     }
 
