@@ -98,7 +98,7 @@ public class Sorter {
 
         List<Integer> sorted = null;
         String bestStrategyName = null;
-        long bestDuration = 0;
+        long bestDuration = Long.MAX_VALUE;
 
 
         List<SortingStrategy> sortingStrategies = SortingMadnessLogic.getAllSortingStrategies();
@@ -127,7 +127,7 @@ public class Sorter {
         }
         List<JsonNode> sorted = null;
         String bestStrategyName = null;
-        long bestDuration = 0;
+        long bestDuration = Long.MAX_VALUE;
 
         List<SortingStrategy> sortingStrategies = SortingMadnessLogic.getAllSortingStrategies();
         for (SortingStrategy sortingStrategy :
