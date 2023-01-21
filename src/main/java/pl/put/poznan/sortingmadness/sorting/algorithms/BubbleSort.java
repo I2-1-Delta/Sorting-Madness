@@ -12,7 +12,11 @@ public class BubbleSort implements SortingStrategy {
     private int limit;
 
     public BubbleSort() {
-        this(false, 0);
+        this(false);
+    }
+
+    public BubbleSort(boolean descending) {
+        this(descending, 0);
     }
 
     public BubbleSort(boolean descending, int limit) {
