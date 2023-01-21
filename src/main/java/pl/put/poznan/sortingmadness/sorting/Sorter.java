@@ -3,10 +3,11 @@ package pl.put.poznan.sortingmadness.sorting;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.put.poznan.sortingmadness.logic.SortingMadnessLogic;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,10 +22,10 @@ public class Sorter {
      *
      * @param toSort            the list to sort
      * @param sortingStrategies the sorting methods
-     * @return the sorting result with a map where keys are the names of sorting methods
-     * and values are elapsed times in nanoseconds.
+     * @return list of the sorting results with the name of sorting method
+     * and elapsed time in nanoseconds.
      */
-    public SortingResult<Integer> sort(List<Integer> toSort, List<SortingStrategy> sortingStrategies) {
+    public List<SortingResult<Integer>> sort(List<Integer> toSort, List<SortingStrategy> sortingStrategies) {
         if (toSort.isEmpty()) {
             throw new NothingToSort();
         }
@@ -32,21 +33,19 @@ public class Sorter {
             throw new NoSortingAlgorithmSelected();
         }
 
-        List<Integer> sorted = null;
-        HashMap<String, Long> elapsed = new HashMap<>();
-
+        List<SortingResult<Integer>> results = new ArrayList<>();
         for (SortingStrategy sortingStrategy :
                 sortingStrategies) {
             log.info("Sorting integers using algorithm {}", sortingStrategy.getName());
             Instant start = Instant.now();
-            sorted = sortingStrategy.sort(toSort);
+            List<Integer> sorted = sortingStrategy.sort(toSort);
             Instant stop = Instant.now();
             long duration = Duration.between(start, stop).toNanos();
             log.debug("Run {} algorithm for integers in {} ns", sortingStrategy.getName(), duration);
-            elapsed.put(sortingStrategy.getName(), duration);
+            results.add(new SortingResult<>(sortingStrategy.getName(), duration, sorted));
         }
 
-        return new SortingResult<>(elapsed, sorted);
+        return results;
     }
 
     /**
@@ -65,10 +64,10 @@ public class Sorter {
      * @param toSort            the list to sort
      * @param sortingStrategies the sorting methods
      * @param path              the key by which the objects should be sorted
-     * @return the sorting result with a map where keys are the names of sorting methods
-     * and values are elapsed times in nanoseconds.
+     * @return list of the sorting results with the name of sorting method
+     * and elapsed time in nanoseconds.
      */
-    public SortingResult<JsonNode> sortObjects(List<JsonNode> toSort, String path, List<SortingStrategy> sortingStrategies) {
+    public List<SortingResult<JsonNode>> sortObjects(List<JsonNode> toSort, String path, List<SortingStrategy> sortingStrategies) {
         if (toSort.isEmpty()) {
             throw new NothingToSort();
         }
@@ -76,9 +75,59 @@ public class Sorter {
             throw new NoSortingAlgorithmSelected();
         }
 
-        List<JsonNode> sorted = null;
-        HashMap<String, Long> elapsed = new HashMap<>();
+        List<SortingResult<JsonNode>> results = new ArrayList<>();
+        for (SortingStrategy sortingStrategy :
+                sortingStrategies) {
+            log.info("Sorting objects using algorithm {}", sortingStrategy.getName());
+            Instant start = Instant.now();
+            List<JsonNode> sorted = sortingStrategy.sort(toSort, path);
+            Instant stop = Instant.now();
+            long duration = Duration.between(start, stop).toNanos();
+            log.debug("Run {} algorithm for objects in {} ns", sortingStrategy.getName(), duration);
+            results.add(new SortingResult<>(sortingStrategy.getName(), duration, sorted));
+        }
 
+        return results;
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    public SortingResult<Integer> sortWithBestStrategy(List<Integer> toSort){
+        if (toSort.isEmpty()) {
+            throw new NothingToSort();
+        }
+
+        List<Integer> sorted = null;
+        String bestStrategyName = null;
+        long bestDuration = Long.MAX_VALUE;
+
+
+        List<SortingStrategy> sortingStrategies = SortingMadnessLogic.getAllSortingStrategies();
+        for (SortingStrategy sortingStrategy :
+                sortingStrategies) {
+            log.info("Sorting integers using algorithm {}", sortingStrategy.getName());
+            Instant start = Instant.now();
+            sorted = sortingStrategy.sort(toSort);
+            Instant stop = Instant.now();
+            long duration = Duration.between(start, stop).toNanos();
+            log.debug("Run {} algorithm for integers in {} ns", sortingStrategy.getName(), duration);
+            if(duration < bestDuration){
+                bestStrategyName = sortingStrategy.getName();
+                bestDuration = duration;
+            }
+        }
+        return new SortingResult<>(bestStrategyName, bestDuration, sorted);
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    public SortingResult<JsonNode> sortObjectsWithBestStrategy(List<JsonNode> toSort, String path) {
+        if (toSort.isEmpty()) {
+            throw new NothingToSort();
+        }
+        List<JsonNode> sorted = null;
+        String bestStrategyName = null;
+        long bestDuration = Long.MAX_VALUE;
+
+        List<SortingStrategy> sortingStrategies = SortingMadnessLogic.getAllSortingStrategies();
         for (SortingStrategy sortingStrategy :
                 sortingStrategies) {
             log.info("Sorting objects using algorithm {}", sortingStrategy.getName());
@@ -87,9 +136,12 @@ public class Sorter {
             Instant stop = Instant.now();
             long duration = Duration.between(start, stop).toNanos();
             log.debug("Run {} algorithm for objects in {} ns", sortingStrategy.getName(), duration);
-            elapsed.put(sortingStrategy.getName(), duration);
+            if(duration < bestDuration){
+                bestStrategyName = sortingStrategy.getName();
+                bestDuration = duration;
+            }
         }
-
-        return new SortingResult<>(elapsed, sorted);
+        return new SortingResult<>(bestStrategyName, bestDuration, sorted);
     }
+
 }
