@@ -23,6 +23,11 @@ public class HeapSort implements SortingStrategy {
     public HeapSort() {
         this(false, 0);
     }
+
+    public HeapSort(boolean descending) {
+        this(descending, 0);
+    }
+
     public HeapSort(boolean descending, int limit) {
         this.descending = descending;
         this.limit = limit;

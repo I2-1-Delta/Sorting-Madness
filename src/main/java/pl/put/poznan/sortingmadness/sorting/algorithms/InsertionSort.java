@@ -15,6 +15,10 @@ public class InsertionSort implements SortingStrategy {
         this(false, 0);
     }
 
+    public InsertionSort(boolean descending){
+        this(descending, 0);
+    }
+
     public InsertionSort(boolean descending, int limit) {
         this.descending = descending;
         this.limit = limit;
