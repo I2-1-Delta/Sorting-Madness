@@ -17,9 +17,16 @@ public class SortingMadnessLogic {
         }
         return sortingStrategies;
     }
+     public static  List<SortingStrategy> getSortingStrategiesDescending(List<SortingStrategyEnum> sortingStrategiesEnums){
+         List<SortingStrategy> sortingStrategies = new ArrayList<>();
+         for (SortingStrategyEnum sortingStrategyEnum : sortingStrategiesEnums) {
+             sortingStrategies.add(sortingStrategyEnum.getSortingStrategyDescending());
+         }
+         return sortingStrategies;
+     }
 
     public static List<SortingStrategy> getAllSortingStrategies() {
-        List<SortingStrategyEnum> sortingStrategiesEnums = new ArrayList<SortingStrategyEnum>();
+        List<SortingStrategyEnum> sortingStrategiesEnums = new ArrayList<>();
         sortingStrategiesEnums.add(SortingStrategyEnum.BUBBLE_SORT);
         sortingStrategiesEnums.add(SortingStrategyEnum.HEAP_SORT);
         sortingStrategiesEnums.add(SortingStrategyEnum.QUICK_SORT);
@@ -27,5 +34,17 @@ public class SortingMadnessLogic {
         sortingStrategiesEnums.add(SortingStrategyEnum.SELECTION_SORT);
         sortingStrategiesEnums.add(SortingStrategyEnum.INSERTION_SORT);
         return SortingMadnessLogic.getSortingStrategies(sortingStrategiesEnums);
+    }
+
+    public static List<SortingStrategy> getAllSortingStrategiesDescending() {
+        List<SortingStrategyEnum> sortingStrategiesEnums = new ArrayList<>();
+
+        sortingStrategiesEnums.add(SortingStrategyEnum.BUBBLE_SORT);
+        sortingStrategiesEnums.add(SortingStrategyEnum.HEAP_SORT);
+        sortingStrategiesEnums.add(SortingStrategyEnum.QUICK_SORT);
+        sortingStrategiesEnums.add(SortingStrategyEnum.MERGE_SORT);
+        sortingStrategiesEnums.add(SortingStrategyEnum.SELECTION_SORT);
+        sortingStrategiesEnums.add(SortingStrategyEnum.INSERTION_SORT);
+        return SortingMadnessLogic.getSortingStrategiesDescending(sortingStrategiesEnums);
     }
 }
