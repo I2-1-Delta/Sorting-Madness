@@ -8,7 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MergeSort implements SortingStrategy {
-
+    private final boolean descending;
+    private int limit;
+    private int numOfIterations = 0;
+    public MergeSort() {
+        this(false);
+    }
+    public MergeSort(boolean descending) {
+        this(descending, 0);
+    }
+    public MergeSort(boolean descending, int limit) {
+        this.descending = descending;
+        this.limit = limit;
+    }
     @Override
     public String getName() {
         return "Merge sort";
@@ -16,27 +28,36 @@ public class MergeSort implements SortingStrategy {
 
     @Override
     public void setLimit(int limit) {
-
+        this.limit = limit;
     }
-
+    private boolean compare(Integer first, Integer second) {
+        if (descending) {
+            return first < second;
+        }
+        return first > second;
+    }
+    private boolean compare(JsonNodeComparator comparator, JsonNode first, JsonNode second) {
+        if (descending) {
+            return comparator.compare(first, second) < 0;
+        }
+        return comparator.compare(first, second) > 0;
+    }
+    private boolean overLimit(int numOfIterations) {
+        return limit != 0 && numOfIterations == limit;
+    }
     @Override
     public List<Integer> sort(List<Integer> toSort) {
-        List<Integer> left = new ArrayList<>();
-        List<Integer> right = new ArrayList<>();
-        int center;
+        int center = toSort.size() / 2;
 
         if (toSort.size() == 1) {
             return toSort;
         } else {
-            center = toSort.size() / 2;
-            for (int i = 0; i < center; i++) {
-                left.add(toSort.get(i));
+            List<Integer> left = toSort.subList(0, center);
+            List<Integer> right = toSort.subList(center, toSort.size());
+            numOfIterations++;
+            if (overLimit(numOfIterations)) {
+                return toSort;
             }
-
-            for (int i = center; i < toSort.size(); i++) {
-                right.add(toSort.get(i));
-            }
-
             left = sort(left);
             right = sort(right);
 
@@ -44,8 +65,6 @@ public class MergeSort implements SortingStrategy {
         }
         return toSort;
     }
-
-
     private List<Integer> mergeInteger(List<Integer> left, List<Integer> right, List<Integer> whole) {
         int leftIndex = 0;
         int rightIndex = 0;
@@ -53,7 +72,8 @@ public class MergeSort implements SortingStrategy {
         whole = new ArrayList<>(whole);
 
         while (leftIndex < left.size() && rightIndex < right.size()) {
-            if ((left.get(leftIndex).compareTo(right.get(rightIndex))) < 0) {
+
+            if (compare(right.get(rightIndex), left.get(leftIndex))) {
                 whole.set(wholeIndex, left.get(leftIndex));
                 leftIndex++;
             } else {
@@ -85,16 +105,24 @@ public class MergeSort implements SortingStrategy {
         List<JsonNode> left = new ArrayList<>();
         List<JsonNode> right = new ArrayList<>();
         int center;
-
+        int numOfIterations = 0;
         if (toSort.size() == 1) {
             return toSort;
         } else {
             center = toSort.size() / 2;
             for (int i = 0; i < center; i++) {
+                numOfIterations++;
+                if (overLimit(numOfIterations)) {
+                    break;
+                }
                 left.add(toSort.get(i));
             }
 
             for (int i = center; i < toSort.size(); i++) {
+                numOfIterations++;
+                if (overLimit(numOfIterations)) {
+                    break;
+                }
                 right.add(toSort.get(i));
             }
 
@@ -115,7 +143,7 @@ public class MergeSort implements SortingStrategy {
         whole = new ArrayList<>(whole);
 
         while (leftIndex < left.size() && rightIndex < right.size()) {
-            if ((comparator.compare(left.get(leftIndex), right.get(rightIndex)) < 0)) {
+            if (compare(comparator, right.get(rightIndex), left.get(leftIndex))) {
                 whole.set(wholeIndex, left.get(leftIndex));
                 leftIndex++;
             } else {
