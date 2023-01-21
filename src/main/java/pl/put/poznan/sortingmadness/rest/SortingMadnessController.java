@@ -19,6 +19,11 @@ import java.util.List;
 @RestController
 public class SortingMadnessController {
     private static final Logger log = LoggerFactory.getLogger(SortingMadnessController.class);
+    private final Sorter sorter;
+
+    public SortingMadnessController(Sorter sorter) {
+        this.sorter = sorter;
+    }
 
     @GetMapping("/sort/integers")
     public List<SortingResult<Integer>> sortIntegers(
@@ -26,7 +31,6 @@ public class SortingMadnessController {
             @RequestParam(defaultValue = "false") boolean  descending)
     {
         log.info("Sorting integers");
-        Sorter sorter = new Sorter();
         List<Integer> toSort = restInputIntegers.getToSort();
         List<SortingStrategy> sortingStrategies;
         if(descending) {
@@ -51,7 +55,6 @@ public class SortingMadnessController {
                 throw new ObjectDontHaveSortingProperty(object, property);
             }
         }
-        Sorter sorter = new Sorter();
         List<SortingStrategy> sortingStrategies;
         if(descending) {
             sortingStrategies = SortingMadnessLogic.getSortingStrategiesDescending(restInputObjects.getSortingStrategies());
@@ -69,7 +72,6 @@ public class SortingMadnessController {
             @RequestParam(defaultValue = "false") boolean  descending)
     {
         log.info("Sorting integers");
-        Sorter sorter = new Sorter();
 
         return sorter.sortWithBestStrategy(toSort, descending);
     }
@@ -88,8 +90,6 @@ public class SortingMadnessController {
                 throw new ObjectDontHaveSortingProperty(object, property);
             }
         }
-        Sorter sorter = new Sorter();
-
         return sorter.sortObjectsWithBestStrategy(toSort, property, descending);
     }
 
