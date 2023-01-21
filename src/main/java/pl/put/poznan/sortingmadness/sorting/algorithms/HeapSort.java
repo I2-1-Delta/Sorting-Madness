@@ -18,10 +18,8 @@ public class HeapSort implements SortingStrategy {
 
     @Override
     public void setLimit(int limit) {
-
+        this.limit = limit;
     }
-
-
     public HeapSort() {
         this(false, 0);
     }
