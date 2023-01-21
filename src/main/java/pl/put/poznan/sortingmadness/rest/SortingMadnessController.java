@@ -6,10 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.put.poznan.sortingmadness.logic.RestInputIntegers;
 import pl.put.poznan.sortingmadness.logic.RestInputObjects;
 import pl.put.poznan.sortingmadness.logic.RestInputObjectsBestStrategy;
@@ -23,18 +20,32 @@ import java.util.List;
 public class SortingMadnessController {
     private static final Logger log = LoggerFactory.getLogger(SortingMadnessController.class);
 
-    @GetMapping("/sort/integers")
-    public List<SortingResult<Integer>> sortIntegers(@RequestBody RestInputIntegers restInputIntegers) {
+    @GetMapping("/sort/integers/{direction}")
+    public List<SortingResult<Integer>> sortIntegers(
+            @RequestBody RestInputIntegers restInputIntegers,
+            @PathVariable String  direction)
+    {
         log.info("Sorting integers");
         Sorter sorter = new Sorter();
         List<Integer> toSort = restInputIntegers.getToSort();
-        List<SortingStrategy> sortingStrategies = SortingMadnessLogic.getSortingStrategies(restInputIntegers.getSortingStrategies());
-
+        List<SortingStrategy> sortingStrategies;
+        if(direction.equals("descending")) {
+            sortingStrategies = SortingMadnessLogic.getSortingStrategiesDescending(restInputIntegers.getSortingStrategies());
+        }
+        else if(direction.equals("ascending")){
+            sortingStrategies = SortingMadnessLogic.getSortingStrategies(restInputIntegers.getSortingStrategies());
+        }
+        else{
+            throw new IllegalArgumentException();
+        }
         return sorter.sort(toSort, sortingStrategies);
     }
 
-    @GetMapping("/sort/objects")
-    public List<SortingResult<JsonNode>> sortObjects(@RequestBody RestInputObjects restInputObjects) {
+    @GetMapping("/sort/objects/{direction}")
+    public List<SortingResult<JsonNode>> sortObjects(
+            @RequestBody RestInputObjects restInputObjects,
+            @PathVariable String direction)
+    {
         log.info("Sorting objects");
         List<JsonNode> toSort = restInputObjects.getToSort();
         String property = restInputObjects.getProperty();
@@ -44,21 +55,33 @@ public class SortingMadnessController {
             }
         }
         Sorter sorter = new Sorter();
-        List<SortingStrategy> sortingStrategies = SortingMadnessLogic.getSortingStrategies(restInputObjects.getSortingStrategies());
+        List<SortingStrategy> sortingStrategies;
+        if(direction.equals("descending")) {
+            sortingStrategies = SortingMadnessLogic.getSortingStrategiesDescending(restInputObjects.getSortingStrategies());
+        }
+        else if(direction.equals("ascending")){
+            sortingStrategies = SortingMadnessLogic.getSortingStrategies(restInputObjects.getSortingStrategies());
+        }
+        else{
+            throw new IllegalArgumentException();
+        }
 
         return sorter.sortObjects(toSort, property, sortingStrategies);
     }
 
-    @GetMapping("/sort/integers/best/strategy")
-    public SortingResult<Integer> sortIntegersWithBestStrategy(@RequestBody List<Integer> toSort) {
+    @GetMapping("/sort/integers/best/strategy/{direction}")
+    public SortingResult<Integer> sortIntegersWithBestStrategy(
+            @RequestBody List<Integer> toSort,
+            @PathVariable String direction)
+    {
         log.info("Sorting integers");
         Sorter sorter = new Sorter();
 
-        return sorter.sortWithBestStrategy(toSort);
+        return sorter.sortWithBestStrategy(toSort, direction);
     }
 
-    @GetMapping("/sort/objects/best/strategy")
-    public SortingResult<JsonNode> sortObjectsWithBestStrategy(@RequestBody RestInputObjectsBestStrategy restInputObjectsBestStrategy) {
+    @GetMapping("/sort/objects/best/strategy/{direction}")
+    public SortingResult<JsonNode> sortObjectsWithBestStrategy(@RequestBody RestInputObjectsBestStrategy restInputObjectsBestStrategy, @PathVariable String direction) {
         log.info("Sorting objects");
         List<JsonNode> toSort = restInputObjectsBestStrategy.getToSort();
         String property = restInputObjectsBestStrategy.getProperty();
@@ -70,7 +93,7 @@ public class SortingMadnessController {
         }
         Sorter sorter = new Sorter();
 
-        return sorter.sortObjectsWithBestStrategy(toSort, property);
+        return sorter.sortObjectsWithBestStrategy(toSort, property, direction);
     }
 
 
