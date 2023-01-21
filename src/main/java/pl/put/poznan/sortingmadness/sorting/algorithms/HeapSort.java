@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HeapSort implements SortingStrategy {
+    private final boolean descending;
+    private  int limit;
+
     @Override
     public String getName() {
         return "Heap sort";
@@ -15,21 +18,23 @@ public class HeapSort implements SortingStrategy {
 
     @Override
     public void setLimit(int limit) {
-
+        this.limit = limit;
     }
-
-    private final boolean descending;
     public HeapSort() {
-        this(false);
+        this(false, 0);
     }
-    public HeapSort(boolean descending) {
+    public HeapSort(boolean descending, int limit) {
         this.descending = descending;
+        this.limit = limit;
     }
     private boolean compare(Integer first, Integer second) {
         if (descending) {
             return first < second;
         }
         return first > second;
+    }
+    private boolean overLimit(int numOfIterations) {
+        return limit != 0 && numOfIterations == limit;
     }
     private boolean compare(JsonNodeComparator comparator, JsonNode first, JsonNode second) {
         if (descending) {
@@ -71,10 +76,19 @@ public class HeapSort implements SortingStrategy {
     public List<Integer> sort(List<Integer> toSort) {
         List<Integer> result = new ArrayList<>(toSort);
         int n = result.size();
+        int numOfIterations = 0;
         for (int i = n / 2 - 1; i >= 0; i--) {
+            numOfIterations++;
+            if (overLimit(numOfIterations)) {
+                break;
+            }
             heapify(result, n, i);
         }
         for (int i = n - 1; i >= 0; i--) {
+            numOfIterations++;
+            if (overLimit(numOfIterations)) {
+                break;
+            }
             int temp = result.get(0);
             result.set(0, result.get(i));
             result.set(i, temp);
@@ -87,10 +101,19 @@ public class HeapSort implements SortingStrategy {
         List<JsonNode> result = new ArrayList<>(toSort);
         JsonNodeComparator comparator = new JsonNodeComparator(path);
         int n = result.size();
+        int numOfIterations = 0;
         for (int i = n / 2 - 1; i >= 0; i--) {
+            numOfIterations++;
+            if (overLimit(numOfIterations)) {
+                break;
+            }
             heapify(result, n, i, comparator);
         }
         for (int i = n - 1; i >= 0; i--) {
+            numOfIterations++;
+            if (overLimit(numOfIterations)) {
+                break;
+            }
             JsonNode temp = result.get(0);
             result.set(0, result.get(i));
             result.set(i, temp);
