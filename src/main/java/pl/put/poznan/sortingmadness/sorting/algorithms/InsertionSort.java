@@ -9,7 +9,7 @@ import java.util.List;
 
 public class InsertionSort implements SortingStrategy {
     private final boolean descending;
-    private final int limit;
+    private int limit;
 
     public InsertionSort() {
         this(false, 0);
@@ -26,7 +26,7 @@ public class InsertionSort implements SortingStrategy {
 
     @Override
     public void setLimit(int limit) {
-
+        this.limit = limit;
     }
 
     private boolean compare(Integer first, Integer second) {
