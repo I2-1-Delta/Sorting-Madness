@@ -15,6 +15,11 @@ public class MergeSort implements SortingStrategy {
     }
 
     @Override
+    public void setLimit(int limit) {
+
+    }
+
+    @Override
     public List<Integer> sort(List<Integer> toSort) {
         List<Integer> left = new ArrayList<>();
         List<Integer> right = new ArrayList<>();

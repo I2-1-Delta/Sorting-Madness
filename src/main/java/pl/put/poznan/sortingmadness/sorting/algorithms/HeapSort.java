@@ -12,6 +12,12 @@ public class HeapSort implements SortingStrategy {
     public String getName() {
         return "Heap sort";
     }
+
+    @Override
+    public void setLimit(int limit) {
+
+    }
+
     private final boolean descending;
     public HeapSort() {
         this(false);

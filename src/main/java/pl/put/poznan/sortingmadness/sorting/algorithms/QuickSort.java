@@ -65,6 +65,11 @@ public class QuickSort implements SortingStrategy {
     }
 
     @Override
+    public void setLimit(int limit) {
+
+    }
+
+    @Override
     public List<Integer> sort(List<Integer> toSort) {
         List<Integer> result = new ArrayList<>(toSort);
         int n = result.size();

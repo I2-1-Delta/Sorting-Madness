@@ -9,17 +9,24 @@ import java.util.List;
 
 public class InsertionSort implements SortingStrategy {
     private final boolean descending;
+    private int limit;
 
     public InsertionSort() {
-        this(false);
+        this(false, 0);
     }
 
-    public InsertionSort(boolean descending) {
+    public InsertionSort(boolean descending, int limit) {
         this.descending = descending;
+        this.limit = limit;
     }
     @Override
     public String getName() {
         return "Insertion sort";
+    }
+
+    @Override
+    public void setLimit(int limit) {
+        this.limit = limit;
     }
 
     private boolean compare(Integer first, Integer second) {
@@ -28,11 +35,19 @@ public class InsertionSort implements SortingStrategy {
         }
         return first > second;
     }
+    private boolean overLimit(int numOfIterations) {
+        return limit != 0 && numOfIterations == limit;
+    }
     @Override
     public List<Integer> sort(List<Integer> toSort) {
         List<Integer> result = new ArrayList<>(toSort);
         int n = result.size();
+        int numOfIterations = 0;
         for (int i = 1; i < n; i++) {
+            numOfIterations++;
+            if (overLimit(numOfIterations)) {
+                break;
+            }
             int temp = result.get(i);
             int j = i - 1;
             while (j >= 0 && compare(result.get(j), temp)){
@@ -54,7 +69,12 @@ public class InsertionSort implements SortingStrategy {
         List<JsonNode> result = new ArrayList<>(toSort);
         JsonNodeComparator comparator = new JsonNodeComparator(path);
         int n = result.size();
+        int numOfIterations = 0;
         for (int i = 1; i < n; i++) {
+            numOfIterations++;
+            if (overLimit(numOfIterations)) {
+                break;
+            }
             JsonNode temp = result.get(i);
             int j = i - 1;
             while (j >= 0 && compare(comparator, result.get(j), temp)) {
