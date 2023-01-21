@@ -22,6 +22,11 @@ public class InsertionSort implements SortingStrategy {
         return "Insertion sort";
     }
 
+    @Override
+    public void setLimit(int limit) {
+
+    }
+
     private boolean compare(Integer first, Integer second) {
         if (descending) {
             return first < second;

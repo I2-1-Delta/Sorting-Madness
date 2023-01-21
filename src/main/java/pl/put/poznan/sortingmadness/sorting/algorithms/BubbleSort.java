@@ -9,7 +9,7 @@ import java.util.List;
 
 public class BubbleSort implements SortingStrategy {
     private final boolean descending;
-    private final int limit;
+    private int limit;
 
     public BubbleSort() {
         this(false, 0);
@@ -23,6 +23,11 @@ public class BubbleSort implements SortingStrategy {
     @Override
     public String getName() {
         return "Bubble sort";
+    }
+
+    @Override
+    public void setLimit(int limit) {
+        this.limit = limit;
     }
 
     @Override
