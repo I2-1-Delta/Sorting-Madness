@@ -91,19 +91,16 @@ public class Sorter {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    public SortingResult<Integer> sortWithBestStrategy(List<Integer> toSort, String direction){
+    public SortingResult<Integer> sortWithBestStrategy(List<Integer> toSort, boolean descending){
         if (toSort.isEmpty()) {
             throw new NothingToSort();
         }
         List<SortingStrategy> sortingStrategies;
-        if(direction.equals("descending")) {
+        if(descending) {
             sortingStrategies = SortingMadnessLogic.getAllSortingStrategiesDescending();
         }
-        else if(direction.equals("ascending")){
-            sortingStrategies = SortingMadnessLogic.getAllSortingStrategies();
-        }
         else{
-            throw new IllegalArgumentException();
+            sortingStrategies = SortingMadnessLogic.getAllSortingStrategies();
         }
 
         List<Integer> sorted = null;
@@ -127,19 +124,16 @@ public class Sorter {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    public SortingResult<JsonNode> sortObjectsWithBestStrategy(List<JsonNode> toSort, String path, String direction) {
+    public SortingResult<JsonNode> sortObjectsWithBestStrategy(List<JsonNode> toSort, String path, boolean descending) {
         if (toSort.isEmpty()) {
             throw new NothingToSort();
         }
         List<SortingStrategy> sortingStrategies;
-        if(direction.equals("descending")) {
+        if(descending) {
             sortingStrategies = SortingMadnessLogic.getAllSortingStrategiesDescending();
         }
-        else if(direction.equals("ascending")){
-            sortingStrategies = SortingMadnessLogic.getAllSortingStrategies();
-        }
         else{
-            throw new IllegalArgumentException();
+            sortingStrategies = SortingMadnessLogic.getAllSortingStrategies();
         }
         List<JsonNode> sorted = null;
         String bestStrategyName = null;

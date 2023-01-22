@@ -20,31 +20,28 @@ import java.util.List;
 public class SortingMadnessController {
     private static final Logger log = LoggerFactory.getLogger(SortingMadnessController.class);
 
-    @GetMapping("/sort/integers/{direction}")
+    @GetMapping("/sort/integers")
     public List<SortingResult<Integer>> sortIntegers(
             @RequestBody RestInputIntegers restInputIntegers,
-            @PathVariable String  direction)
+            @RequestParam(defaultValue = "false") boolean  descending)
     {
         log.info("Sorting integers");
         Sorter sorter = new Sorter();
         List<Integer> toSort = restInputIntegers.getToSort();
         List<SortingStrategy> sortingStrategies;
-        if(direction.equals("descending")) {
+        if(descending) {
             sortingStrategies = SortingMadnessLogic.getSortingStrategiesDescending(restInputIntegers.getSortingStrategies());
         }
-        else if(direction.equals("ascending")){
-            sortingStrategies = SortingMadnessLogic.getSortingStrategies(restInputIntegers.getSortingStrategies());
-        }
         else{
-            throw new IllegalArgumentException();
+            sortingStrategies = SortingMadnessLogic.getSortingStrategies(restInputIntegers.getSortingStrategies());
         }
         return sorter.sort(toSort, sortingStrategies);
     }
 
-    @GetMapping("/sort/objects/{direction}")
+    @GetMapping("/sort/objects")
     public List<SortingResult<JsonNode>> sortObjects(
             @RequestBody RestInputObjects restInputObjects,
-            @PathVariable String direction)
+            @RequestParam(defaultValue = "false") boolean  descending)
     {
         log.info("Sorting objects");
         List<JsonNode> toSort = restInputObjects.getToSort();
@@ -56,32 +53,32 @@ public class SortingMadnessController {
         }
         Sorter sorter = new Sorter();
         List<SortingStrategy> sortingStrategies;
-        if(direction.equals("descending")) {
+        if(descending) {
             sortingStrategies = SortingMadnessLogic.getSortingStrategiesDescending(restInputObjects.getSortingStrategies());
         }
-        else if(direction.equals("ascending")){
-            sortingStrategies = SortingMadnessLogic.getSortingStrategies(restInputObjects.getSortingStrategies());
-        }
         else{
-            throw new IllegalArgumentException();
+            sortingStrategies = SortingMadnessLogic.getSortingStrategies(restInputObjects.getSortingStrategies());
         }
 
         return sorter.sortObjects(toSort, property, sortingStrategies);
     }
 
-    @GetMapping("/sort/integers/best/strategy/{direction}")
+    @GetMapping("/sort/integers/best/strategy")
     public SortingResult<Integer> sortIntegersWithBestStrategy(
             @RequestBody List<Integer> toSort,
-            @PathVariable String direction)
+            @RequestParam(defaultValue = "false") boolean  descending)
     {
         log.info("Sorting integers");
         Sorter sorter = new Sorter();
 
-        return sorter.sortWithBestStrategy(toSort, direction);
+        return sorter.sortWithBestStrategy(toSort, descending);
     }
 
-    @GetMapping("/sort/objects/best/strategy/{direction}")
-    public SortingResult<JsonNode> sortObjectsWithBestStrategy(@RequestBody RestInputObjectsBestStrategy restInputObjectsBestStrategy, @PathVariable String direction) {
+    @GetMapping("/sort/objects/best/strategy")
+    public SortingResult<JsonNode> sortObjectsWithBestStrategy(
+            @RequestBody RestInputObjectsBestStrategy restInputObjectsBestStrategy,
+            @RequestParam(defaultValue = "false") boolean  descending)
+    {
         log.info("Sorting objects");
         List<JsonNode> toSort = restInputObjectsBestStrategy.getToSort();
         String property = restInputObjectsBestStrategy.getProperty();
@@ -93,7 +90,7 @@ public class SortingMadnessController {
         }
         Sorter sorter = new Sorter();
 
-        return sorter.sortObjectsWithBestStrategy(toSort, property, direction);
+        return sorter.sortObjectsWithBestStrategy(toSort, property, descending);
     }
 
 
