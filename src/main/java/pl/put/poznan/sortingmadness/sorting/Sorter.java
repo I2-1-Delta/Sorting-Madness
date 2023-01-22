@@ -91,17 +91,22 @@ public class Sorter {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    public SortingResult<Integer> sortWithBestStrategy(List<Integer> toSort){
+    public SortingResult<Integer> sortWithBestStrategy(List<Integer> toSort, boolean descending){
         if (toSort.isEmpty()) {
             throw new NothingToSort();
+        }
+        List<SortingStrategy> sortingStrategies;
+        if(descending) {
+            sortingStrategies = SortingMadnessLogic.getAllSortingStrategiesDescending();
+        }
+        else{
+            sortingStrategies = SortingMadnessLogic.getAllSortingStrategies();
         }
 
         List<Integer> sorted = null;
         String bestStrategyName = null;
         long bestDuration = Long.MAX_VALUE;
 
-
-        List<SortingStrategy> sortingStrategies = SortingMadnessLogic.getAllSortingStrategies();
         for (SortingStrategy sortingStrategy :
                 sortingStrategies) {
             log.info("Sorting integers using algorithm {}", sortingStrategy.getName());
@@ -119,15 +124,21 @@ public class Sorter {
     }
 
     @SuppressWarnings("DuplicatedCode")
-    public SortingResult<JsonNode> sortObjectsWithBestStrategy(List<JsonNode> toSort, String path) {
+    public SortingResult<JsonNode> sortObjectsWithBestStrategy(List<JsonNode> toSort, String path, boolean descending) {
         if (toSort.isEmpty()) {
             throw new NothingToSort();
+        }
+        List<SortingStrategy> sortingStrategies;
+        if(descending) {
+            sortingStrategies = SortingMadnessLogic.getAllSortingStrategiesDescending();
+        }
+        else{
+            sortingStrategies = SortingMadnessLogic.getAllSortingStrategies();
         }
         List<JsonNode> sorted = null;
         String bestStrategyName = null;
         long bestDuration = Long.MAX_VALUE;
 
-        List<SortingStrategy> sortingStrategies = SortingMadnessLogic.getAllSortingStrategies();
         for (SortingStrategy sortingStrategy :
                 sortingStrategies) {
             log.info("Sorting objects using algorithm {}", sortingStrategy.getName());
