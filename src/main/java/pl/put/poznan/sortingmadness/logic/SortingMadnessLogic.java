@@ -25,6 +25,13 @@ public class SortingMadnessLogic {
          return sortingStrategies;
      }
 
+     public static List<SortingStrategy> setIterationLimit(List<SortingStrategy> sortingStrategies, List<Integer> iterationLimits){
+         for (int i = 0; i < iterationLimits.size(); i++) {
+             sortingStrategies.get(i).setLimit(iterationLimits.get(i));
+         }
+         return sortingStrategies;
+     }
+
     public static List<SortingStrategy> getAllSortingStrategies() {
         List<SortingStrategyEnum> sortingStrategiesEnums = new ArrayList<>();
         sortingStrategiesEnums.add(SortingStrategyEnum.BUBBLE_SORT);
