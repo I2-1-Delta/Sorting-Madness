@@ -25,11 +25,10 @@ public class SortingMadnessLogic {
          return sortingStrategies;
      }
 
-     public static List<SortingStrategy> setIterationLimit(List<SortingStrategy> sortingStrategies, List<Integer> iterationLimits){
-         for (int i = 0; i < iterationLimits.size(); i++) {
+     public static void setIterationLimit(List<SortingStrategy> sortingStrategies, List<Integer> iterationLimits){
+         for (int i = 0; i < iterationLimits.size() && i < sortingStrategies.size(); i++) {
              sortingStrategies.get(i).setLimit(iterationLimits.get(i));
          }
-         return sortingStrategies;
      }
 
     public static List<SortingStrategy> getAllSortingStrategies() {
