@@ -8,9 +8,12 @@ public class RestInputIntegers {
 
     private final List<SortingStrategyEnum> sortingStrategies;
 
-    public RestInputIntegers(List<Integer> toSort, List<SortingStrategyEnum> sortingStrategies) {
+    private final  List<Integer> iterationLimits;
+
+    public RestInputIntegers(List<Integer> toSort, List<SortingStrategyEnum> sortingStrategies, List<Integer> iterationLimits) {
         this.toSort = toSort;
         this.sortingStrategies = sortingStrategies;
+        this.iterationLimits = iterationLimits;
     }
 
     public List<Integer> getToSort() {
@@ -19,5 +22,9 @@ public class RestInputIntegers {
 
     public List<SortingStrategyEnum> getSortingStrategies() {
         return sortingStrategies;
+    }
+
+    public List<Integer> getIterationLimits() {
+        return iterationLimits;
     }
 }
