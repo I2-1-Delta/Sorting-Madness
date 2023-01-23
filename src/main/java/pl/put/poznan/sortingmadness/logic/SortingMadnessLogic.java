@@ -26,9 +26,11 @@ public class SortingMadnessLogic {
      }
 
      public static void setIterationLimit(List<SortingStrategy> sortingStrategies, List<Integer> iterationLimits){
-         for (int i = 0; i < iterationLimits.size() && i < sortingStrategies.size(); i++) {
-             sortingStrategies.get(i).setLimit(iterationLimits.get(i));
-         }
+        if(iterationLimits != null) {
+            for (int i = 0; i < iterationLimits.size() && i < sortingStrategies.size(); i++) {
+                sortingStrategies.get(i).setLimit(iterationLimits.get(i));
+            }
+        }
      }
 
     public static List<SortingStrategy> getAllSortingStrategies() {
@@ -53,4 +55,5 @@ public class SortingMadnessLogic {
         sortingStrategiesEnums.add(SortingStrategyEnum.INSERTION_SORT);
         return SortingMadnessLogic.getSortingStrategiesDescending(sortingStrategiesEnums);
     }
+
 }
