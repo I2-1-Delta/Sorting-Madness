@@ -41,7 +41,7 @@ class SortingMadnessControllerTest {
         when(sorter.sort(anyList(), anyList())).thenReturn(List.of(new SortingResult<>("Bubble sort", 10000L, List.of(1, 2, 3))));
         mockMvc.perform(
                 get("/sort/integers")
-                        .content(toJson(new RestInputIntegers(List.of(3, 1, 2), List.of(SortingStrategyEnum.BUBBLE_SORT))))
+                        .content(toJson(new RestInputIntegers(List.of(3, 1, 2), List.of(SortingStrategyEnum.BUBBLE_SORT), null)))
                         .contentType(MediaType.APPLICATION_JSON)
         )
                 .andExpect(status().isOk());
@@ -53,7 +53,7 @@ class SortingMadnessControllerTest {
         when(sorter.sort(anyList(), anyList())).thenThrow(new NothingToSort());
         mockMvc.perform(
                         get("/sort/integers")
-                                .content(toJson(new RestInputIntegers(List.of(), List.of(SortingStrategyEnum.BUBBLE_SORT))))
+                                .content(toJson(new RestInputIntegers(List.of(), List.of(SortingStrategyEnum.BUBBLE_SORT), null)))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isBadRequest());
@@ -65,7 +65,7 @@ class SortingMadnessControllerTest {
         when(sorter.sort(anyList(), anyList())).thenThrow(new NoSortingAlgorithmSelected());
         mockMvc.perform(
                         get("/sort/integers")
-                                .content(toJson(new RestInputIntegers(List.of(3, 1, 2), List.of())))
+                                .content(toJson(new RestInputIntegers(List.of(3, 1, 2), List.of(), null)))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isBadRequest());
@@ -83,7 +83,7 @@ class SortingMadnessControllerTest {
         );
         mockMvc.perform(
                         get("/sort/objects")
-                                .content(toJson(new RestInputObjects(List.of(object3, object1, object2), "/prop", List.of(SortingStrategyEnum.BUBBLE_SORT))))
+                                .content(toJson(new RestInputObjects(List.of(object3, object1, object2), "/prop", List.of(SortingStrategyEnum.BUBBLE_SORT), null)))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk());
@@ -101,7 +101,7 @@ class SortingMadnessControllerTest {
         );
         mockMvc.perform(
                         get("/sort/objects")
-                                .content(toJson(new RestInputObjects(List.of(object3, object1, object2), "/prop", List.of(SortingStrategyEnum.BUBBLE_SORT))))
+                                .content(toJson(new RestInputObjects(List.of(object3, object1, object2), "/prop", List.of(SortingStrategyEnum.BUBBLE_SORT), null)))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isBadRequest());
