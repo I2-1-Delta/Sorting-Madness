@@ -3,9 +3,9 @@ package pl.put.poznan.sortingmadness.sorting;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import pl.put.poznan.sortingmadness.logic.SortingMadnessLogic;
 
+import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -15,9 +15,13 @@ import java.util.List;
  * A class that uses given types of sorting to sort given values
  * and measures the required time for each sorting method.
  */
-@Service
 public class Sorter {
     private static final Logger log = LoggerFactory.getLogger(Sorter.class);
+    private final Clock clock;
+
+    public Sorter(Clock clock) {
+        this.clock = clock;
+    }
 
     /**
      * Sort list of integers with given sorting methods
@@ -39,9 +43,9 @@ public class Sorter {
         for (SortingStrategy sortingStrategy :
                 sortingStrategies) {
             log.info("Sorting integers using algorithm {}", sortingStrategy.getName());
-            Instant start = Instant.now();
+            Instant start = Instant.now(clock);
             List<Integer> sorted = sortingStrategy.sort(toSort);
-            Instant stop = Instant.now();
+            Instant stop = Instant.now(clock);
             long duration = Duration.between(start, stop).toNanos();
             log.debug("Run {} algorithm for integers in {} ns", sortingStrategy.getName(), duration);
             results.add(new SortingResult<>(sortingStrategy.getName(), duration, sorted));
@@ -81,9 +85,9 @@ public class Sorter {
         for (SortingStrategy sortingStrategy :
                 sortingStrategies) {
             log.info("Sorting objects using algorithm {}", sortingStrategy.getName());
-            Instant start = Instant.now();
+            Instant start = Instant.now(clock);
             List<JsonNode> sorted = sortingStrategy.sort(toSort, path);
-            Instant stop = Instant.now();
+            Instant stop = Instant.now(clock);
             long duration = Duration.between(start, stop).toNanos();
             log.debug("Run {} algorithm for objects in {} ns", sortingStrategy.getName(), duration);
             results.add(new SortingResult<>(sortingStrategy.getName(), duration, sorted));
@@ -112,9 +116,9 @@ public class Sorter {
         for (SortingStrategy sortingStrategy :
                 sortingStrategies) {
             log.info("Sorting integers using algorithm {}", sortingStrategy.getName());
-            Instant start = Instant.now();
+            Instant start = Instant.now(clock);
             sorted = sortingStrategy.sort(toSort);
-            Instant stop = Instant.now();
+            Instant stop = Instant.now(clock);
             long duration = Duration.between(start, stop).toNanos();
             log.debug("Run {} algorithm for integers in {} ns", sortingStrategy.getName(), duration);
             if(duration < bestDuration){
@@ -144,9 +148,9 @@ public class Sorter {
         for (SortingStrategy sortingStrategy :
                 sortingStrategies) {
             log.info("Sorting objects using algorithm {}", sortingStrategy.getName());
-            Instant start = Instant.now();
+            Instant start = Instant.now(clock);
             sorted = sortingStrategy.sort(toSort, path);
-            Instant stop = Instant.now();
+            Instant stop = Instant.now(clock);
             long duration = Duration.between(start, stop).toNanos();
             log.debug("Run {} algorithm for objects in {} ns", sortingStrategy.getName(), duration);
             if(duration < bestDuration){
