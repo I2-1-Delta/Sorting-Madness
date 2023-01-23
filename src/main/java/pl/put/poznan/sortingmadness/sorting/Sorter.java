@@ -3,6 +3,7 @@ package pl.put.poznan.sortingmadness.sorting;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import pl.put.poznan.sortingmadness.logic.SortingMadnessLogic;
 
 import java.time.Duration;
@@ -14,6 +15,7 @@ import java.util.List;
  * A class that uses given types of sorting to sort given values
  * and measures the required time for each sorting method.
  */
+@Service
 public class Sorter {
     private static final Logger log = LoggerFactory.getLogger(Sorter.class);
 
