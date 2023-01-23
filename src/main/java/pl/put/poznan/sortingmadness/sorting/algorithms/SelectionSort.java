@@ -44,7 +44,7 @@ public class SelectionSort implements SortingStrategy {
                 break;
             }
             for (int j = i + 1; j < n; j++) {
-                if (result.get(j) < result.get(minIndex)) {
+                if (compare(result.get(j), result.get(minIndex))) {
                     minIndex = j;
                 }
             }
@@ -54,6 +54,13 @@ public class SelectionSort implements SortingStrategy {
             result.set(i, temp1);
         }
         return result;
+    }
+
+    private boolean compare(Integer first, Integer second) {
+        if (descending) {
+            return first > second;
+        }
+        return first < second;
     }
 
     @Override
@@ -69,7 +76,7 @@ public class SelectionSort implements SortingStrategy {
                 break;
             }
             for (int j = i + 1; j < n; j++) {
-                if (comparator.compare(result.get(minIndex), result.get(j)) > 0) {
+                if (compare(comparator, result.get(minIndex), result.get(j))) {
                     minIndex = j;
                 }
             }
@@ -79,6 +86,13 @@ public class SelectionSort implements SortingStrategy {
             result.set(i, temp1);
         }
         return result;
+    }
+
+    private boolean compare(JsonNodeComparator comparator, JsonNode first, JsonNode second) {
+        if (descending) {
+            return comparator.compare(first, second) < 0;
+        }
+        return comparator.compare(first, second) > 0;
     }
 
     private boolean overLimit(int numOfIterations) {
