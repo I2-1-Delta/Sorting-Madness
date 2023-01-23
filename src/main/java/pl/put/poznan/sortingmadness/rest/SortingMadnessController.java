@@ -28,6 +28,7 @@ public class SortingMadnessController {
         log.info("Sorting integers");
         Sorter sorter = new Sorter();
         List<Integer> toSort = restInputIntegers.getToSort();
+        List<Integer> iterationLimits = restInputIntegers.getIterationLimits();
         List<SortingStrategy> sortingStrategies;
         if(descending) {
             sortingStrategies = SortingMadnessLogic.getSortingStrategiesDescending(restInputIntegers.getSortingStrategies());
@@ -35,6 +36,7 @@ public class SortingMadnessController {
         else{
             sortingStrategies = SortingMadnessLogic.getSortingStrategies(restInputIntegers.getSortingStrategies());
         }
+        SortingMadnessLogic.setIterationLimit(sortingStrategies, iterationLimits);
         return sorter.sort(toSort, sortingStrategies);
     }
 
@@ -51,7 +53,7 @@ public class SortingMadnessController {
                 throw new ObjectDontHaveSortingProperty(object, property);
             }
         }
-        Sorter sorter = new Sorter();
+        List<Integer> iterationLimits = restInputObjects.getIterationLimits();
         List<SortingStrategy> sortingStrategies;
         if(descending) {
             sortingStrategies = SortingMadnessLogic.getSortingStrategiesDescending(restInputObjects.getSortingStrategies());
@@ -59,7 +61,8 @@ public class SortingMadnessController {
         else{
             sortingStrategies = SortingMadnessLogic.getSortingStrategies(restInputObjects.getSortingStrategies());
         }
-
+        SortingMadnessLogic.setIterationLimit(sortingStrategies, iterationLimits);
+        Sorter sorter = new Sorter();
         return sorter.sortObjects(toSort, property, sortingStrategies);
     }
 

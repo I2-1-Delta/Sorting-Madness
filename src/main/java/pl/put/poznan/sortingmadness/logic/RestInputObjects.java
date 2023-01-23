@@ -10,11 +10,13 @@ public class RestInputObjects {
     private final String property;
 
     private final List<SortingStrategyEnum> sortingStrategies;
+    private final List<Integer> iterationLimits;
 
-    public RestInputObjects(List<JsonNode> toSort, String property, List<SortingStrategyEnum> sortingStrategies) {
+    public RestInputObjects(List<JsonNode> toSort, String property, List<SortingStrategyEnum> sortingStrategies, List<Integer> iterationLimits) {
         this.toSort = toSort;
         this.property = property;
         this.sortingStrategies = sortingStrategies;
+        this.iterationLimits = iterationLimits;
     }
 
     public List<JsonNode> getToSort() {
@@ -27,5 +29,9 @@ public class RestInputObjects {
 
     public List<SortingStrategyEnum> getSortingStrategies() {
         return sortingStrategies;
+    }
+
+    public List<Integer> getIterationLimits() {
+        return iterationLimits;
     }
 }
