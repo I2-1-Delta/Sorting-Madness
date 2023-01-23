@@ -20,6 +20,10 @@ public class SelectionSort implements SortingStrategy {
         this.limit = limit;
     }
 
+    public SelectionSort(boolean descending) {
+        this(descending, 0);
+    }
+
     @Override
     public String getName() {
         return "Selection sort";
