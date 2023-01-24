@@ -23,7 +23,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -40,7 +40,7 @@ class SortingMadnessControllerTest {
     void shouldCallSorterForSortingIntegers() throws Exception {
         when(sorter.sort(anyList(), anyList())).thenReturn(List.of(new SortingResult<>("Bubble sort", 10000L, List.of(1, 2, 3))));
         mockMvc.perform(
-                get("/sort/integers")
+                post("/sort/integers")
                         .content(toJson(new RestInputIntegers(List.of(3, 1, 2), List.of(SortingStrategyEnum.BUBBLE_SORT), null)))
                         .contentType(MediaType.APPLICATION_JSON)
         )
@@ -52,7 +52,7 @@ class SortingMadnessControllerTest {
     void shouldReturn400BadRequestWhenNothingToSortThrown() throws Exception {
         when(sorter.sort(anyList(), anyList())).thenThrow(new NothingToSort());
         mockMvc.perform(
-                        get("/sort/integers")
+                        post("/sort/integers")
                                 .content(toJson(new RestInputIntegers(List.of(), List.of(SortingStrategyEnum.BUBBLE_SORT), null)))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -64,7 +64,7 @@ class SortingMadnessControllerTest {
     void shouldReturn400BadRequestWhenNoSortingAlgorithmSelectedThrown() throws Exception {
         when(sorter.sort(anyList(), anyList())).thenThrow(new NoSortingAlgorithmSelected());
         mockMvc.perform(
-                        get("/sort/integers")
+                        post("/sort/integers")
                                 .content(toJson(new RestInputIntegers(List.of(3, 1, 2), List.of(), null)))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -82,7 +82,7 @@ class SortingMadnessControllerTest {
                 List.of(new SortingResult<>("Bubble sort", 10000L, List.of(object1, object2, object3)))
         );
         mockMvc.perform(
-                        get("/sort/objects")
+                        post("/sort/objects")
                                 .content(toJson(new RestInputObjects(List.of(object3, object1, object2), "/prop", List.of(SortingStrategyEnum.BUBBLE_SORT), null)))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -100,7 +100,7 @@ class SortingMadnessControllerTest {
                 List.of(new SortingResult<>("Bubble sort", 10000L, List.of(object1, object2, object3)))
         );
         mockMvc.perform(
-                        get("/sort/objects")
+                        post("/sort/objects")
                                 .content(toJson(new RestInputObjects(List.of(object3, object1, object2), "/prop", List.of(SortingStrategyEnum.BUBBLE_SORT), null)))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -112,7 +112,7 @@ class SortingMadnessControllerTest {
     void shouldCallSortBestStrategyForIntegers() throws Exception {
         when(sorter.sortWithBestStrategy(anyList(), eq(false))).thenReturn(new SortingResult<>("Heap sort", 10000L, List.of(1, 2, 3)));
         mockMvc.perform(
-                        get("/sort/integers/best/strategy")
+                        post("/sort/integers/best/strategy")
                                 .content(toJson(List.of(3, 2, 1)))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
@@ -127,7 +127,7 @@ class SortingMadnessControllerTest {
         JsonNode object3 = toJsonNode("{\"prop\": 3}");
         when(sorter.sortObjectsWithBestStrategy(anyList(), anyString(), eq(false))).thenReturn(new SortingResult<>("Heap sort", 10000L, List.of(object1, object2, object3)));
         mockMvc.perform(
-                        get("/sort/objects/best/strategy")
+                        post("/sort/objects/best/strategy")
                                 .content(toJson(new RestInputObjectsBestStrategy(List.of(object3, object1, object2), "/prop")))
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
