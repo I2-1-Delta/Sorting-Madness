@@ -25,4 +25,13 @@ class QuickSortTest {
         List<JsonNode> result = sortingStrategy.sort(integers, Fixtures.PATH);
         assertThat(result).isSortedAccordingTo(new JsonNodeComparator(Fixtures.PATH));
     }
+
+    @Test
+    void shouldStopAlgorithmWhenOverLimit() {
+        List<Integer> integers = Fixtures.INT_LIST;
+        SortingStrategy sortingStrategy = new QuickSort(1);
+        List<Integer> result = sortingStrategy.sort(integers);
+        List<Integer> sortedWithoutLimit = new QuickSort(0).sort(integers);
+        assertThat(result).doesNotContainSequence(sortedWithoutLimit);
+    }
 }

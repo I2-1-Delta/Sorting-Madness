@@ -9,7 +9,18 @@ import java.util.Collections;
 import java.util.List;
 
 public class QuickSort implements SortingStrategy {
-    private static int listPartition(List<Integer> toSort, int low, int high) {
+
+    private int limit;
+
+    public QuickSort() {
+        this(0);
+    }
+
+    public QuickSort(int limit) {
+        this.limit = limit;
+    }
+
+    private int listPartition(List<Integer> toSort, int low, int high) {
         int pivot = toSort.get(high);
         int i = low - 1;
 
@@ -25,16 +36,19 @@ public class QuickSort implements SortingStrategy {
         return i + 1;
     }
 
-    private static void quickSortList(List<Integer> toSort, int low, int high) {
+    private void quickSortList(List<Integer> toSort, int low, int high, int numOfIteration) {
+        if (overLimit(numOfIteration)) {
+            return;
+        }
         if (low < high) {
             int pivot = listPartition(toSort, low, high);
 
-            quickSortList(toSort, low, pivot - 1);
-            quickSortList(toSort, pivot + 1, high);
+            quickSortList(toSort, low, pivot - 1, numOfIteration + 1);
+            quickSortList(toSort, pivot + 1, high, numOfIteration + 1);
         }
     }
 
-    private static int nodePartition(List<JsonNode> toSort, int low, int high, JsonNodeComparator comparator) {
+    private int nodePartition(List<JsonNode> toSort, int low, int high, JsonNodeComparator comparator) {
         JsonNode pivot = toSort.get(high);
         int i = low - 1;
 
@@ -50,12 +64,15 @@ public class QuickSort implements SortingStrategy {
         return i + 1;
     }
 
-    private static void quickSortNodes(List<JsonNode> toSort, int low, int high, JsonNodeComparator comparator) {
+    private void quickSortNodes(List<JsonNode> toSort, int low, int high, JsonNodeComparator comparator, int numOfIterations) {
+        if (overLimit(numOfIterations)) {
+            return;
+        }
         if (comparator.compare(toSort.get(low), toSort.get(high)) < 0) {
             int pivot = nodePartition(toSort, low, high, comparator);
 
-            quickSortNodes(toSort, low, pivot - 1, comparator);
-            quickSortNodes(toSort, pivot + 1, high, comparator);
+            quickSortNodes(toSort, low, pivot - 1, comparator, numOfIterations);
+            quickSortNodes(toSort, pivot + 1, high, comparator, numOfIterations);
         }
     }
 
@@ -66,7 +83,7 @@ public class QuickSort implements SortingStrategy {
 
     @Override
     public void setLimit(int limit) {
-
+        this.limit = limit;
     }
 
     @Override
@@ -74,7 +91,7 @@ public class QuickSort implements SortingStrategy {
         List<Integer> result = new ArrayList<>(toSort);
         int n = result.size();
 
-        quickSortList(result, 0, n - 1);
+        quickSortList(result, 0, n - 1, 0);
 
         return result;
     }
@@ -85,8 +102,12 @@ public class QuickSort implements SortingStrategy {
         JsonNodeComparator comparator = new JsonNodeComparator(path);
         int n = result.size();
 
-        quickSortNodes(result, 0, n - 1, comparator);
+        quickSortNodes(result, 0, n - 1, comparator, 0);
 
         return result;
+    }
+
+    private boolean overLimit(int numOfIterations) {
+        return limit != 0 && numOfIterations == limit;
     }
 }
