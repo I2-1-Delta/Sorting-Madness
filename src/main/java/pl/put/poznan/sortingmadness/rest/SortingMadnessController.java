@@ -25,7 +25,7 @@ public class SortingMadnessController {
         this.sorter = sorter;
     }
 
-    @GetMapping("/sort/integers")
+    @PostMapping("/sort/integers")
     public List<SortingResult<Integer>> sortIntegers(
             @RequestBody RestInputIntegers restInputIntegers,
             @RequestParam(defaultValue = "false") boolean  descending)
@@ -44,7 +44,7 @@ public class SortingMadnessController {
         return sorter.sort(toSort, sortingStrategies);
     }
 
-    @GetMapping("/sort/objects")
+    @PostMapping("/sort/objects")
     public List<SortingResult<JsonNode>> sortObjects(
             @RequestBody RestInputObjects restInputObjects,
             @RequestParam(defaultValue = "false") boolean  descending)
@@ -69,7 +69,7 @@ public class SortingMadnessController {
         return sorter.sortObjects(toSort, property, sortingStrategies);
     }
 
-    @GetMapping("/sort/integers/best/strategy")
+    @PostMapping("/sort/integers/best/strategy")
     public SortingResult<Integer> sortIntegersWithBestStrategy(
             @RequestBody List<Integer> toSort,
             @RequestParam(defaultValue = "false") boolean  descending)
@@ -79,7 +79,7 @@ public class SortingMadnessController {
         return sorter.sortWithBestStrategy(toSort, descending);
     }
 
-    @GetMapping("/sort/objects/best/strategy")
+    @PostMapping("/sort/objects/best/strategy")
     public SortingResult<JsonNode> sortObjectsWithBestStrategy(
             @RequestBody RestInputObjectsBestStrategy restInputObjectsBestStrategy,
             @RequestParam(defaultValue = "false") boolean  descending)
