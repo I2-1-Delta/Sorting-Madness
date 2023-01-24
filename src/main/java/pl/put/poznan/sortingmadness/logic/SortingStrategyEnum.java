@@ -3,6 +3,10 @@ package pl.put.poznan.sortingmadness.logic;
 import pl.put.poznan.sortingmadness.sorting.SortingStrategy;
 import pl.put.poznan.sortingmadness.sorting.algorithms.*;
 
+/**
+ * This class is used to convert algorithms choosen by user in JSON request
+ * to concrete strategy implementation.
+ */
 public enum SortingStrategyEnum {
     BUBBLE_SORT(new BubbleSort(), new BubbleSort(true)),
     HEAP_SORT(new HeapSort(), new HeapSort(true)),
@@ -12,7 +16,17 @@ public enum SortingStrategyEnum {
     QUICK_SORT(new QuickSort(), new QuickSort());  //todo to implement descending in quicksort
 
 
+    /**
+     * Strategy implementation with ascending order
+     *
+     * @return the strategy
+     */
     private final SortingStrategy sortingStrategy;
+    /**
+     * Strategy implementation with descending order
+     *
+     * @return the strategy
+     */
     private final SortingStrategy sortingStrategyDescending;
 
     SortingStrategyEnum(SortingStrategy sortingStrategy, SortingStrategy sortingStrategyDescending) {
