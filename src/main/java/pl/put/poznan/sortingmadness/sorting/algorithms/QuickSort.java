@@ -87,7 +87,7 @@ public class QuickSort implements SortingStrategy {
         if (overLimit(numOfIterations)) {
             return;
         }
-        if (comparator.compare(toSort.get(low), toSort.get(high)) < 0) {
+        if (low < high) {
             int pivot = nodePartition(toSort, low, high, comparator);
 
             quickSortNodes(toSort, low, pivot - 1, comparator, numOfIterations);
