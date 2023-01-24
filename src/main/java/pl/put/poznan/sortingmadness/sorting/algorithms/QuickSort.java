@@ -9,14 +9,19 @@ import java.util.Collections;
 import java.util.List;
 
 public class QuickSort implements SortingStrategy {
-
+    private final boolean descending;
     private int limit;
 
     public QuickSort() {
-        this(0);
+        this(false, 0);
     }
 
-    public QuickSort(int limit) {
+    public QuickSort(boolean descending) {
+        this(descending, 0);
+    }
+
+    public QuickSort(boolean descending, int limit) {
+        this.descending = descending;
         this.limit = limit;
     }
 
@@ -25,7 +30,7 @@ public class QuickSort implements SortingStrategy {
         int i = low - 1;
 
         for (int j = low; j < high; j++) {
-            if (toSort.get(j) <= pivot) {
+            if (compare(toSort.get(j), pivot)) {
                 i++;
                 Collections.swap(toSort, i, j);
             }
@@ -34,6 +39,13 @@ public class QuickSort implements SortingStrategy {
         Collections.swap(toSort, i + 1, high);
 
         return i + 1;
+    }
+
+    private boolean compare(Integer first, Integer second) {
+        if (descending) {
+            return first >= second;
+        }
+        return first <= second;
     }
 
     private void quickSortList(List<Integer> toSort, int low, int high, int numOfIteration) {
@@ -53,7 +65,7 @@ public class QuickSort implements SortingStrategy {
         int i = low - 1;
 
         for (int j = low; j < high; j++) {
-            if (comparator.compare(toSort.get(j), pivot) <= 0) {
+            if (compare(comparator, toSort.get(j), pivot)) {
                 i++;
                 Collections.swap(toSort, i, j);
             }
@@ -64,11 +76,18 @@ public class QuickSort implements SortingStrategy {
         return i + 1;
     }
 
+    private boolean compare(JsonNodeComparator comparator, JsonNode first, JsonNode second) {
+        if (descending) {
+            return comparator.compare(first, second) >= 0;
+        }
+        return comparator.compare(first, second) <= 0;
+    }
+
     private void quickSortNodes(List<JsonNode> toSort, int low, int high, JsonNodeComparator comparator, int numOfIterations) {
         if (overLimit(numOfIterations)) {
             return;
         }
-        if (comparator.compare(toSort.get(low), toSort.get(high)) < 0) {
+        if (low < high) {
             int pivot = nodePartition(toSort, low, high, comparator);
 
             quickSortNodes(toSort, low, pivot - 1, comparator, numOfIterations);

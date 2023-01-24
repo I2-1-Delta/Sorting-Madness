@@ -26,4 +26,12 @@ class Fixtures {
         }
         return objects;
     }
+
+    static JsonNode toJsonNode(String json) {
+        try {
+            return new ObjectMapper().readTree(json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
