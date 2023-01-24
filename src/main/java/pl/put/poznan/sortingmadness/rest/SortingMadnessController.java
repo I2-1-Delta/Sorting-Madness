@@ -34,7 +34,7 @@ public class SortingMadnessController {
      * 'descending' to sort in descending order. Add optional array 'iterationLimits'
      * in JSON body to limit iterations of each algorithm.
      */
-    @PostMapping("/sort/integers")\
+    @PostMapping("/sort/integers")
     public List<SortingResult<Integer>> sortIntegers(
             @RequestBody RestInputIntegers restInputIntegers,
             @RequestParam(defaultValue = "false") boolean  descending)
