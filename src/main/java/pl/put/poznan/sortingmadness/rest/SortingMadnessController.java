@@ -16,6 +16,10 @@ import pl.put.poznan.sortingmadness.sorting.*;
 import java.util.List;
 
 
+/**
+ * Controller exposing REST API to interact with the app. Allows to sort integers
+ * and objects. There is also a possibilty to find the best algorithm for given list of values.
+ */
 @RestController
 public class SortingMadnessController {
     private static final Logger log = LoggerFactory.getLogger(SortingMadnessController.class);
@@ -25,7 +29,12 @@ public class SortingMadnessController {
         this.sorter = sorter;
     }
 
-    @PostMapping("/sort/integers")
+    /**
+     * Sort integers in order using given algorithms. Use optional request parameter
+     * 'descending' to sort in descending order. Add optional array 'iterationLimits'
+     * in JSON body to limit iterations of each algorithm.
+     */
+    @PostMapping("/sort/integers")\
     public List<SortingResult<Integer>> sortIntegers(
             @RequestBody RestInputIntegers restInputIntegers,
             @RequestParam(defaultValue = "false") boolean  descending)
@@ -69,6 +78,10 @@ public class SortingMadnessController {
         return sorter.sortObjects(toSort, property, sortingStrategies);
     }
 
+    /**
+     * Find the fastest algorith for given list of values. Use optional request parameter
+     * 'descending' to sort in descending order. 
+     */
     @PostMapping("/sort/integers/best/strategy")
     public SortingResult<Integer> sortIntegersWithBestStrategy(
             @RequestBody List<Integer> toSort,
@@ -78,7 +91,6 @@ public class SortingMadnessController {
 
         return sorter.sortWithBestStrategy(toSort, descending);
     }
-
     @PostMapping("/sort/objects/best/strategy")
     public SortingResult<JsonNode> sortObjectsWithBestStrategy(
             @RequestBody RestInputObjectsBestStrategy restInputObjectsBestStrategy,
