@@ -11,9 +11,9 @@ public enum SortingStrategyEnum {
     BUBBLE_SORT(new BubbleSort(), new BubbleSort(true)),
     HEAP_SORT(new HeapSort(), new HeapSort(true)),
     INSERTION_SORT(new InsertionSort(), new InsertionSort(true)),
-    MERGE_SORT(new MergeSort(), new MergeSort()),  //todo to implement descending in mergesort
-    SELECTION_SORT(new SelectionSort(), new SelectionSort()),  //todo to implement descending in selectionsort
-    QUICK_SORT(new QuickSort(), new QuickSort());  //todo to implement descending in quicksort
+    MERGE_SORT(new MergeSort(), new MergeSort(true)),
+    SELECTION_SORT(new SelectionSort(), new SelectionSort(true)),
+    QUICK_SORT(new QuickSort(), new QuickSort(true));
 
 
     /**
