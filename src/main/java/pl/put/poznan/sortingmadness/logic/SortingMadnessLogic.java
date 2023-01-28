@@ -31,6 +31,11 @@ public class SortingMadnessLogic {
                 sortingStrategies.get(i).setLimit(iterationLimits.get(i));
             }
         }
+        else{
+            for (int i = 0; i < sortingStrategies.size(); i++) {
+                sortingStrategies.get(i).setLimit(0);
+            }
+        }
      }
 
     public static List<SortingStrategy> getAllSortingStrategies() {

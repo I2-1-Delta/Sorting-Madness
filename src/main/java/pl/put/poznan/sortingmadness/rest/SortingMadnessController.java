@@ -16,17 +16,30 @@ import pl.put.poznan.sortingmadness.sorting.*;
 import java.util.List;
 
 
+/**
+ * Controller exposing REST API to interact with the app. Allows to sort integers
+ * and objects. There is also a possibilty to find the best algorithm for given list of values.
+ */
 @RestController
 public class SortingMadnessController {
     private static final Logger log = LoggerFactory.getLogger(SortingMadnessController.class);
+    private final Sorter sorter;
 
-    @GetMapping("/sort/integers")
+    public SortingMadnessController(Sorter sorter) {
+        this.sorter = sorter;
+    }
+
+    /**
+     * Sort integers in order using given algorithms. Use optional request parameter
+     * 'descending' to sort in descending order. Add optional array 'iterationLimits'
+     * in JSON body to limit iterations of each algorithm.
+     */
+    @PostMapping("/sort/integers")
     public List<SortingResult<Integer>> sortIntegers(
             @RequestBody RestInputIntegers restInputIntegers,
             @RequestParam(defaultValue = "false") boolean  descending)
     {
         log.info("Sorting integers");
-        Sorter sorter = new Sorter();
         List<Integer> toSort = restInputIntegers.getToSort();
         List<Integer> iterationLimits = restInputIntegers.getIterationLimits();
         List<SortingStrategy> sortingStrategies;
@@ -40,7 +53,7 @@ public class SortingMadnessController {
         return sorter.sort(toSort, sortingStrategies);
     }
 
-    @GetMapping("/sort/objects")
+    @PostMapping("/sort/objects")
     public List<SortingResult<JsonNode>> sortObjects(
             @RequestBody RestInputObjects restInputObjects,
             @RequestParam(defaultValue = "false") boolean  descending)
@@ -62,22 +75,23 @@ public class SortingMadnessController {
             sortingStrategies = SortingMadnessLogic.getSortingStrategies(restInputObjects.getSortingStrategies());
         }
         SortingMadnessLogic.setIterationLimit(sortingStrategies, iterationLimits);
-        Sorter sorter = new Sorter();
         return sorter.sortObjects(toSort, property, sortingStrategies);
     }
 
-    @GetMapping("/sort/integers/best/strategy")
+    /**
+     * Find the fastest algorith for given list of values. Use optional request parameter
+     * 'descending' to sort in descending order. 
+     */
+    @PostMapping("/sort/integers/best/strategy")
     public SortingResult<Integer> sortIntegersWithBestStrategy(
             @RequestBody List<Integer> toSort,
             @RequestParam(defaultValue = "false") boolean  descending)
     {
         log.info("Sorting integers");
-        Sorter sorter = new Sorter();
 
         return sorter.sortWithBestStrategy(toSort, descending);
     }
-
-    @GetMapping("/sort/objects/best/strategy")
+    @PostMapping("/sort/objects/best/strategy")
     public SortingResult<JsonNode> sortObjectsWithBestStrategy(
             @RequestBody RestInputObjectsBestStrategy restInputObjectsBestStrategy,
             @RequestParam(defaultValue = "false") boolean  descending)
@@ -91,8 +105,6 @@ public class SortingMadnessController {
                 throw new ObjectDontHaveSortingProperty(object, property);
             }
         }
-        Sorter sorter = new Sorter();
-
         return sorter.sortObjectsWithBestStrategy(toSort, property, descending);
     }
 
