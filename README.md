@@ -13,7 +13,7 @@ All the necessary information about the project
 
 The application implements 6 various sorting algorithms which can be used to sort different data sets using REST API and compare their sort times.
 Numeric data is sorted by standard and objects are sorted by parameter given by the user.
-To design api strategy pattern was used.
+Strategy pattern was used in designing the application.
 
 
 
