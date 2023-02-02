@@ -2,7 +2,8 @@
 
 ## Contents
 * [General](#general)
-* [Retrospective](#retrospective)
+* [Running the application](#running-the-application)
+* [Endpoints](#endpoints)
 
 ## General
 
@@ -14,8 +15,12 @@ The application implements 6 various sorting algorithms which can be used to sor
 Numeric data is sorted by standard and objects are sorted by parameter given by the user.
 To design api strategy pattern was used.
 
+
+
 ## Running the application
 The project is a standard Maven project. To run it from the command line, type mvn spring-boot:run then use given endpoints.
+
+
 
 ## Endpoints
 - sort integers 
@@ -82,8 +87,4 @@ The project is a standard Maven project. To run it from the command line, type m
     "property": "/sort/key"
   }
   ```
-  
-## Retrospective
-### Actions
-- Some pull requests were open for far too long
-- Some of the features were implemented even though the tickets weren't created
+
